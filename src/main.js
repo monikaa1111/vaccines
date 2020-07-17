@@ -3,10 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import { NavBar } from 'vant'; 
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(NavBar);
+Vue.use(Axios)
 
 
 Vue.config.productionTip = false
-
+Vue.prototype.$axios=Axios
+Vue.use(VueAxios,Axios)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
