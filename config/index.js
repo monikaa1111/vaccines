@@ -17,7 +17,14 @@ module.exports = {
         pathRewrite:{
           '^/dfy':'http://152.136.232.95:8089'
         }
-      }
+      },
+      '/BQ':{
+        target:'http://152.136.232.95:8089/',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/BQ':'http://152.136.232.95:8089/'
+        }
+      },
     },
 
     // Various Dev Server settings

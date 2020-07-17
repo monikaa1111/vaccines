@@ -15,6 +15,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+import { NavBar } from 'vant'; 
+Vue.use(NavBar);
+Vue.use(Axios)
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
