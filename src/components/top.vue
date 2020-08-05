@@ -2,9 +2,9 @@
 <template>
 <div class=''>
    <van-tabbar v-model="active">
-  <van-tabbar-item icon="wap-home-o" >首页</van-tabbar-item>
-  <van-tabbar-item icon="setting-o">分类</van-tabbar-item>
-  <van-tabbar-item icon="https://b.yzcdn.cn/vant/icon-demo-1126.png">个人中心</van-tabbar-item>
+  <van-tabbar-item icon="wap-home-o" @click="jump()">首页</van-tabbar-item>
+  <van-tabbar-item icon="phone-o" @click="jump1()">预约记录</van-tabbar-item>
+ <van-tabbar-item icon="https://b.yzcdn.cn/vant/icon-demo-1126.png" @click="jump2()">个人中心</van-tabbar-item>
 </van-tabbar>
 </div>
 </template>
@@ -18,15 +18,33 @@ export default {
 components: {},
 data() {
     return {
-      active: 0,
+      active: '',
       icon: {
         active: 'https://img.yzcdn.cn/vant/user-active.png',
         inactive: 'https://img.yzcdn.cn/vant/user-inactive.png',
       },
     };
+    
   },
+  methods:{
+    jump(){
+      window.location.href="home"
+    },
+    jump1(){
+      window.location.href="yyrecord"
+    },
+    jump2(){
+      var tel=sessionStorage.getItem("telephone")
+     if (tel!='') {
+       window.location.href="Personal"
+      
+     } else {
+         window.location.href="login"
+     }
+      
+    }
+  }
 }
 </script>
 <style  scoped>
-
 </style>

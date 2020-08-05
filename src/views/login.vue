@@ -4,19 +4,19 @@
     <van-nav-bar
   title="登录"
   right-text=""
-  @click-right="onClickRight"
   
 />
 <div class="box">
 <van-form>
   <van-field
-    v-model="username"
-    name="用户名"
-    label="用户名"
-    placeholder="用户名"
-    :rules="[{ required: true, message: '请填写用户名' }]"
-     style="margin-top:1em"
-  />
+          v-model="telephone"
+          name="手机号"
+          label="手机号："
+          placeholder="请输入您的手机号"
+          :rules="[{ required: true, message: '手机号不能为空' }]"
+          style="margin-top:1em"
+          type="number"
+        />
   <van-field
     v-model="password"
     type="password"
@@ -27,10 +27,11 @@
     style="margin-top:1em"
   />
   <div style="margin: 16px;margin-top:1em">
-    <van-button round block type="info" native-type="submit">
+    <van-button round block type="info"  @click="submit()">
       登录
     </van-button>
   </div>
+   <div class="font1" @click="jump1()">忘记密码</div>
   <div class="font" @click="jump()">没有账号？立即注册</div>
 </van-form>
 </div>
@@ -45,20 +46,36 @@ data() {
     
 //这里存放数据
 return {
-        username: '',
+        telephone: '',
         password: '',
 };
 
 },
  methods: {
-     onClickLeft() {
-    },
     jump() {
       this.$router.push('/register')
+    },
+     jump1() {
+      this.$router.push('/forget')
     },
     onSubmit(values) {
       console.log('submit', values);
     },
+    submit(){
+      let fromdata=new FormData();
+      fromdata.append("telephone",this.telephone)
+      sessionStorage.setItem("telephone",this.telephone)
+      fromdata.append("password",this.password)
+      this.$axios.post("http://152.136.232.95:8089/user/login",fromdata).then(res=>{
+        console.log(res)
+        if(res.data==1){
+          window.location.href="Personal"
+        }else{
+          alert("用户名/密码错误")
+        }
+       
+      })
+    }
   },
 //监听属性 类似于data概念
 computed: {},
@@ -94,6 +111,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   text-align: center;
   font-size: 12px;
   color: rgb(136, 136, 136)
+}
+.font1{
+  /* text-align: center; */
+  font-size: 12px;
+  color: rgb(136, 136, 136);
+  position: absolute;
+  top: 35.8%;
+  left: 3%
 }
 
 </style>

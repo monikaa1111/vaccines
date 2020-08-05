@@ -11,20 +11,21 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/dfy':{
+      '/BQ':{
         target:'http://152.136.232.95:8089',
         changeOrigin:true,
         pathRewrite:{
-          '^/dfy':'http://152.136.232.95:8089'
+          '^/BQ':'http://152.136.232.95:8089'
         }
       },
-      '/BQ':{
+      '/dfy':{
         target:'http://152.136.232.95:8089/',
         changeOrigin:true,
         pathRewrite:{
-          '^/BQ':'http://152.136.232.95:8089/'
+          '^/dfy':'http://152.136.232.95:8089/'
         }
       },
+
     },
 
     // Various Dev Server settings

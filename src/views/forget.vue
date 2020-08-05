@@ -42,7 +42,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
          <van-field
-          v-model="ruleForm.password1"
+          v-model="ruleForm.newpassword"
           type="password"
           name="确认新密码"
           label="确认新密码"
@@ -67,13 +67,13 @@ export default {
   data() {
     //这里存放数据
     return {
+      code3:'',   
        fileList: [],
       ruleForm: {
         username: "",
         password: "",
-        password1: "",
+        newpassword: "",
         telephone: "",
-
         // residencepermit: "",
         // birthcertificate: "",
         // ykrecord: ""
@@ -102,11 +102,27 @@ export default {
      code() {
       var tel = [this.ruleForm.telephone];
       console.log(JSON.stringify(this.ruleForm.telephone));
-      this.$axios.post("/BQ/user/sendCode", tel).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/user/sendCode", tel).then(res => {
         console.log(res);
-        let code = res.data;
+        this.code3 = res.data;
+        
       });
+      
     },
+    jump(){
+      let fromdata=new FormData();
+      fromdata.append("telephone",this.ruleForm.telephone)
+      fromdata.append("newpassword",this.ruleForm.newpassword)
+      fromdata.append('code',this.code3)
+      this.$axios.post("http://152.136.232.95:8089/user/forgetPassword",fromdata).then(res=>{
+        console.log(res)
+        if (res.data==1) {
+          window.location.href="login"
+        } else {
+          alert("修改失败，请重试")
+        }
+      })
+    }
    
   }
 };

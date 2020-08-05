@@ -36,15 +36,23 @@
           style="margin-top:1em"
         />
         <van-field
-          v-model="ruleForm.birthday"
+          v-model="value1"
           name="出生日期"
           label="出生日期："
-          placeholder="请输入您的出生日期"
-          :rules="[{ required: true, message: '此选项不能为空' }]"
+          placeholder="请输入您的出生日期，格式为xxxx-xx-xx"
+          :rules="[{ required: true, message: '请填写您的出生日期' }]"
           style="margin-top:1em"
-          type="number"
+          type="date"
         />
-
+      <!-- <div class="block" style="margin-left:4%;margin-top:11px">
+          <span class="demonstration" style="font-size:14px">出生日期：</span>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            placeholder="选择日期" >
+          </el-date-picker>
+        </div> -->
         <van-field
           v-model="ruleForm.numberid"
           name="身份证号"
@@ -110,17 +118,18 @@
           style="margin-top:1em"
         />
 
-        <van-field v-model="ruleForm.birthcertificate" label="出生证明：" />
-        <van-uploader :after-read="afterRead" class="shangchuan" />
-        <van-field v-model="ruleForm.residencepermit" label="居住证明：" />
-        <van-uploader :after-read="afterRead" class="shangchuan" />
-        <van-field v-model="ruleForm.ykrecord" label="乙肝和卡介苗接种记录：" />
-        <van-uploader :after-read="afterRead" class="shangchuan" />
+        <van-field label="出生证明：" />
+        <input type="file" class="shangchuan" :value="birthcertificate"/>
+        <van-field  label="居住证明：" />
+         <input type="file" class="shangchuan" :value="residencepermit"/>
+        <van-field  label="乙肝和卡介苗接种记录：" />
+         <input type="file" class="shangchuan" :value="ykrecord"/>
         <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit" @click="jump()">注册</van-button>
         </div>
       </van-form>
     </div>
+    <div class="font" @click="jump11()">已有账号？立即登录</div>
   </div>
 </template>
 
@@ -134,6 +143,7 @@ export default {
   data() {
     //这里存放数据
     return {
+       value1: '',
        fileList: [],
         value: "",
         showPicker: false,
@@ -147,13 +157,24 @@ export default {
         telephone: "",
         address: "",
         birthhospital: "",
-        // residencepermit: "",
-        // birthcertificate: "",
-        // ykrecord: ""
-      }
+        code1:'',
+
+        //  pickerOptions: {
+        //   disabledDate(time) {
+        //     return time.getTime() > Date.now();
+        //   },
+        // },
+       
+      },
+        residencepermit: "",
+        birthcertificate: "",
+        ykrecord: ""
     };
   },
   methods: {
+    jump11() {
+      this.$router.push('/login')
+    },
     onClickLeft() {
       Toast("返回");
     },
@@ -177,64 +198,84 @@ export default {
       console.log(JSON.stringify(this.ruleForm.telephone));
       this.$axios.post("/BQ/user/sendCode", tel).then(res => {
         console.log(res);
-        let code = res.data;
+        this.code1 = res.data;
       });
     },
 
     jump() {
+            let fromdata=new FormData();
+      fromdata.append( "ykrecord", this.ykrecord)
+      console.log(typeof(this.ykrecord))
+      this.$axios.post("/BQ/file/upload",fromdata).then(response=>{
+        console.log(response)
+        })
+    
       let obj = {
         username: this.ruleForm.username,
         // code:this.code,
         name: this.ruleForm.name,
+        telephone:this.ruleForm.telephone,
         gender: this.ruleForm.gender,
-        birthday: this.ruleForm.birthday,
+        birthday: this.value1+'',
         numberid: this.ruleForm.numberid,
         relation: this.value,
         address: this.ruleForm.address,
         password: this.ruleForm.password,
         birthhospital: this.ruleForm.birthhospital,
-        residencepermit: this.ruleForm.residencepermit,
-        birthcertificate: this.ruleForm.birthcertificate,
-        ykrecord: this.ruleForm.ykrecord
+        code:this.code1
       };
+      console.log(this.value1)
+      console.log(typeof(this.value1))
 
       this.$axios.post("/BQ/user/register", obj).then(res => {
         console.log(res);
+        if (res.data==1) {
+          alert("注册成功，请稍等...")
+          window.location.href="login"
+        } else {
+          alert("您已注册，请直接登录")
+        }
       });
-    },
+    }
+
 
                //上传图片
-            afterread(item){
-                var vm=this
-                window.lrz(item.file,{
-                    before:function(){},
-                    fail:function(err){},
-                    always:function(){},
-                    whidth:400
-                },function(con){
-                    let data={
-                        imgbase64:con.base64
-                    }
-                    axios({
-                        method:'post',
-                        url:'/common/uploadfile/baseimg',
-                        data:Qs.stringify(data)
-                    }).then(two=>{
-                        console.log(two)
-                        console.log(two.data.data.imgurl)
-                        vm.fileList=two.data.data.imgurl
+            // afterread(item){
+            //     var vm=this
+            //     window.lrz(item.file,{
+            //         before:function(){},
+            //         fail:function(err){},
+            //         always:function(){},
+            //         whidth:400
+            //     },function(con){
+            //         let data={
+            //             imgbase64:con.base64
+            //         }
+            //         axios({
+            //             method:'post',
+            //             url:'/BQ/file/upload',
+            //             data:Qs.stringify(data)
+            //         }).then(two=>{
+            //             console.log(two)
+            //             console.log(two.data.data.imgurl)
+            //             vm.fileList=two.data.data.imgurl
                        
-                        console.log(vm.fileList)
-                    })
-                }
+            //             console.log(vm.fileList)
+            //         })
+            //     }
                
-                )},
+            //     )},
         },
 };
 </script>
 <style  scoped>
 .shangchuan {
   margin-top: 10px;
-  margin-left: 60%;
+  margin-left: 5%
+}
+.font{
+  text-align: center;
+  font-size: 12px;
+  color: rgb(136, 136, 136)
 }
 </style>

@@ -10,6 +10,14 @@ import register from '@/views/register'
 import 'vant/lib/index.css'
 import forget from '@/views/forget'
 import modify from '@/views/modify'
+import Personal from '@/views/Personal'
+import denglu from '@/pc/denglu'
+import register1 from '@/pc/register1'
+import yyrecord from '@/views/yyrecord'
+import details from '@/views/details'
+import notification from '@/views/notification'
+import appointment from '@/views/appointment'
+
 
 Vue.use(Vant);
 
@@ -57,6 +65,42 @@ export default new Router({
       path: '/modify',
       name: 'modify',
       component: modify
-    }
+    },
+    {
+      path: '/Personal',
+      name: 'Personal',
+      component: Personal
+    },
+    {
+      path: '/denglu',
+      name: 'denglu',
+      component: denglu
+    },
+    {
+      path: '/register1',
+      name: 'register1',
+      component: register1
+    },
+    {
+      path: '/yyrecord',
+      name: 'yyrecord',
+      component: yyrecord
+    },
+    {
+      path: '/details',
+      name: 'details',
+      component: details
+    },
+    {
+      path: '/notification',
+      name: 'notification',
+      component: notification
+    },
+    {
+      path: '/appointment',
+      name: 'appointment',
+      component: appointment
+    },
+    
   ]
 })

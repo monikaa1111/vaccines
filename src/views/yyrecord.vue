@@ -1,0 +1,165 @@
+<!--  -->
+<template>
+  <div class='div'>
+    <top></top>
+    <van-nav-bar
+      title="预约记录"
+      left-text="返回"
+      right-text="按钮"
+      left-arrow
+    />
+    <!-- <input
+      type="button"
+      value="添加"
+      style="margin:20px"
+      @click="change()"
+    /> -->
+    <!-- <div class="tian" v-show="show">
+        <input type="button" value="确认添加" class="sure"/>
+    </div> -->
+    <div class="box"  v-for="(item,index) in vacc " :key="index"  >
+      <div @click="jump(index)">
+      <img src="../assets/1.jpg" class="img" />
+      <p class="name">{{item.vname}}</p>
+      <p class="date">{{item.time}}</p>
+      <p class="date1">价格：20</p>
+      </div>
+      <input type="button" value="删除" class="button1" @click="del(index)" />
+      <!-- <input type="button" value="修改" class="button2"  @click="change()" />
+          <div class="tian" v-show="show">
+            <input type="button" value="确认修改" class="sure"/>
+        </div> -->
+    </div>
+  </div>
+</template>
+
+<script>
+//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+//例如：import 《组件名称》 from '《组件路径》';
+import top from "@/components/top";
+export default {
+  //import引入的组件需要注入到对象中才能使用
+  components: {
+    top
+  },
+  data() {
+    //这里存放数据
+    return {
+        show:false,
+        vacc:[],
+    };
+  },
+  //监听属性 类似于data概念
+  computed: {},
+  //监控data中的数据变化
+  watch: {},
+    //生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAllAppointRecord").then(res=>{
+        console.log(res)
+        this.vacc=res.data
+
+
+    })
+  },
+  //方法集合
+   methods: {
+        jump(index){
+      this.$router.push('/details?info='+this.vacc[index].aid)
+    },
+    del(index) {
+      let fromdata=new FormData();
+      fromdata.append("aid",this.vacc[index].aid)
+
+       console.log(this.vacc[index].aid)
+      //  let aid={
+      //   "aid": (this.vacc[index].aid)
+      //   }
+      this.$axios.post("http://152.136.232.95:8089/appointRecord/deleteAppointRecord",fromdata).then(res => {
+        console.log(res);
+        if (res.data==1) {
+          alert("删除成功")
+          this.$router.go(0)
+        } else {
+          alert("删除失败")
+        }
+      });
+    },
+    change(){
+   this.show = !this.show
+  },
+  },
+
+  //生命周期 - 挂载完成（可以访问DOM元素）
+  mounted() {},
+
+};
+</script>
+<style  scoped>
+.box {
+  width: 90%;
+  height: 12em;
+  /* border:1px solid black; */
+  margin: 10px auto;
+  box-shadow: 1px 1px 2px 1px rgb(180, 179, 179);
+  position: relative;
+}
+.img {
+  width: 30%;
+  height: 6em;
+  position: absolute;
+  top: 22%;
+  left: 5%;
+}
+.name {
+  font-size: 20px;
+  position: absolute;
+  top: 16%;
+  left: 38%;
+}
+.date {
+  font-size: 14px;
+  position: absolute;
+  top: 52%;
+  left: 38%;
+}
+.date1 {
+  font-size: 14px;
+  position: absolute;
+  top: 52%;
+  left: 70%;
+}
+.button {
+  position: absolute;
+  top: 75%;
+  left: 55%;
+}
+.button1 {
+  position: absolute;
+  top: 75%;
+  left: 73%;
+}
+.button2 {
+  position: absolute;
+  top: 75%;
+  left: 56%;
+}
+.tian {
+  width: 90%;
+  height: 8.5em;
+  border: 1px solid black;
+  /* margin: auto; */
+  background-color: rgb(187, 255, 255);
+  z-index: 1;
+  position: absolute;
+  left: 5%;
+}
+.sure{
+    position: absolute;
+    bottom: 2%;
+    right: 5%;
+}
+.div{
+  margin-bottom:10em
+}
+</style>

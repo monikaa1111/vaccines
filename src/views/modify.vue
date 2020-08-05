@@ -79,11 +79,6 @@
           style="margin-top:1em"
           type="number"
         />
-        <van-field v-model="ruleForm.sms" center clearable label="短信验证码：" placeholder="请输入短信验证码">
-          <template #button>
-            <van-button size="small" type="primary" @click="code()">发送验证码</van-button>
-          </template>
-        </van-field>
         <van-field
           v-model="ruleForm.password"
           type="password"
@@ -110,7 +105,7 @@
           style="margin-top:1em"
         />
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">注册</van-button>
+          <van-button round block type="info" native-type="submit" @click="jump()">修改</van-button>
         </div>
       </van-form>
     </div>
@@ -168,7 +163,7 @@ export default {
     code() {
       var tel = [this.ruleForm.telephone];
       console.log(JSON.stringify(this.ruleForm.telephone));
-      this.$axios.post("/BQ/user/sendCode", tel).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/user/sendCode", tel).then(res => {
         console.log(res);
         let code = res.data;
       });
@@ -191,7 +186,7 @@ export default {
         ykrecord: this.ruleForm.ykrecord
       };
 
-      this.$axios.post("/BQ/user/register", obj).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/user/modifyUserInfo", obj).then(res => {
         console.log(res);
       });
     },
