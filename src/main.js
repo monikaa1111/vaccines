@@ -9,6 +9,8 @@ import VueAxios from 'vue-axios'
 Vue.prototype.$axios = Axios
 Vue.use(VueAxios,Axios)
 import 'element-ui/lib/theme-chalk/index.css';
+import vueEsign from 'vue-esign'
+Vue.use(vueEsign)
 // import App from './App.vue';
 
 

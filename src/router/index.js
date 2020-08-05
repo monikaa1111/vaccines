@@ -17,6 +17,8 @@ import yyrecord from '@/views/yyrecord'
 import details from '@/views/details'
 import notification from '@/views/notification'
 import appointment from '@/views/appointment'
+import ele from '@/views/ele'
+
 
 
 Vue.use(Vant);
@@ -100,6 +102,11 @@ export default new Router({
       path: '/appointment',
       name: 'appointment',
       component: appointment
+    },
+    {
+      path: '/ele',
+      name: 'ele',
+      component: ele
     },
     
   ]

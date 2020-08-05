@@ -23,7 +23,7 @@
     
  </div>
       <button style="margin-left:10px" @click="jump()">预约</button>
-     <button style="margin-left:10px" @click="jump2()">电子告知书</button>
+     <!-- <button style="margin-left:10px" @click="jump2()">电子告知书</button> -->
 </div>
 </template>
 
@@ -54,17 +54,18 @@ methods: {
       Toast("按钮");
     },
     jump(){
-        this.$router.push('/appointment?vname='+this.vacc.vname)
+        this.$router.push('/notification?vname='+this.vacc.vname)
     },
-    jump2(){
-        window.location.href='notification'
-    }
+    // jump2(){
+    //     window.location.href='notification'
+    // }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
     
     this.Aemail=this.$route.query.info;
     console.log(this.Aemail);
+    sessionStorage.setItem("vid",this.Aemail)
      let fromdata=new FormData();
       fromdata.append("vid",this.Aemail)
 
