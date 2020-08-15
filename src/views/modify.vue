@@ -4,108 +4,65 @@
     <van-nav-bar
       title="修改信息"
       left-text
-      right-text
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
+      @click-left="onClickLeft()"
     />
     <div>
       <van-form @submit="onSubmit">
-        <van-field
-          v-model="ruleForm.name"
-          name="用户名"
-          label="用户名："
-          placeholder="请输入您的用户名"
-          :rules="[{ required: true, message: '请填写您的用户名' }]"
-          style="margin-top:1em"
+    <van-field
+          v-model="username"
+          name="预约姓名"
+          label="预约姓名"
+          placeholder="预约姓名"
+          :rules="[{ required: true, message: '请填写预约姓名' }]"
         />
-        <van-field
-          v-model="ruleForm.username"
-          name="姓名"
-          label="姓名："
-          placeholder="请输入您的姓名"
-          :rules="[{ required: true, message: '请填写真实姓名' }]"
-          style="margin-top:1em"
-        />
-        <van-field
-          v-model="ruleForm.gender"
-          name="性别"
-          label="性别："
-          placeholder="请输入您的性别"
-          :rules="[{ required: true, message: '此选项不能为空' }]"
-          style="margin-top:1em"
-        />
-        <van-field
-          v-model="ruleForm.birthday"
-          name="出生日期"
-          label="出生日期："
-          placeholder="请输入您的出生日期"
-          :rules="[{ required: true, message: '此选项不能为空' }]"
-          style="margin-top:1em"
+         <van-field
+          v-model="telephone"
+          name="家长电话"
+          label="家长电话"
+          placeholder="家长电话"
+          :rules="[{ required: true, message: '请填写家长电话' }]"
           type="number"
+        />
+       <van-field
+          v-model="position"
+          name="接种部位"
+          label="接种部位"
+          placeholder="接种部位"
+          :rules="[{ required: true, message: '请填写接种部位' }]"
+        />
+        <van-field
+          v-model="time"
+          name="预约时间"
+          label="预约时间"
+          placeholder="预约时间"
+          :rules="[{ required: true, message: '请填写预约时间' }]"
+          type="date"
+        />
+                <van-field
+          v-model="place"
+          name="预约地点"
+          label="预约地点"
+          placeholder="预约地点"
+          :rules="[{ required: true, message: '请填写预约地点' }]"
         />
 
-        <van-field
-          v-model="ruleForm.numberid"
-          name="身份证号"
-          label="身份证号："
-          placeholder="请输入您的身份证号"
-          :rules="[{ required: true, message: '请填写您的身份证号' }]"
-          style="margin-top:1em"
-          type="number"
+                        <van-field
+          v-model="department"
+          name="预约医生科室"
+          label="预约医生科室"
+          placeholder="预约医生科室"
+          :rules="[{ required: true, message: '请填写预约医生的科室' }]"
         />
-        <van-field
-          readonly
-          clickable
-          label="与本人关系"
-          :value="value"
-          placeholder="请选择"
-          @click="showPicker = true"
-        />
-        <van-popup v-model="showPicker" round position="bottom">
-          <van-picker
-            show-toolbar
-            :columns="columns"
-            @cancel="showPicker = false"
-            @confirm="onConfirm"
-          />
-        </van-popup>
-        <van-field
-          v-model="ruleForm.telephone"
-          name="手机号"
-          label="手机号："
-          placeholder="请输入您的手机号"
-          :rules="[{ required: true, message: '手机号不能为空' }]"
-          style="margin-top:1em"
-          type="number"
-        />
-        <van-field
-          v-model="ruleForm.password"
-          type="password"
-          name="密码"
-          label="密码"
-          placeholder="密码"
-          :rules="[{ required: true, message: '请填写密码' }]"
-        />
-
-        <van-field
-          v-model="ruleForm.address"
-          name="家庭住址"
-          label="家庭住址："
-          placeholder="请输入您的家庭住址"
-          :rules="[{ required: true, message: '请填写您的家庭住址' }]"
-          style="margin-top:1em"
-        />
-        <van-field
-          v-model="ruleForm.birthhospital"
-          name="出生医院"
-          label="出生医院："
-          placeholder="请输入您的出生医院"
-          :rules="[{ required: true, message: '请填写您的出生医院' }]"
-          style="margin-top:1em"
+                        <van-field
+          v-model="job"
+          name="预约医生职务"
+          label="预约医生职务"
+          placeholder="预约医生职务"
+          :rules="[{ required: true, message: '请填写预约医生的职务' }]"
         />
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">修改</van-button>
+          <van-button round block type="info" @click="jump()">修改</van-button>
         </div>
       </van-form>
     </div>
@@ -122,31 +79,21 @@ export default {
   data() {
     //这里存放数据
     return {
-       fileList: [],
-        value: "",
-        showPicker: false,
-        columns: ["本人", "夫妻", "父母", "子女", "兄弟姐妹"],
-      ruleForm: {
-        username: "",
-        password: "",
-        gender: "",
-        birthday: "",
-        numberid: "",
-        telephone: "",
-        address: "",
-        birthhospital: "",
-        // residencepermit: "",
-        // birthcertificate: "",
-        // ykrecord: ""
-      }
+        position:'',
+    department:'',
+    doctor:'',
+    job:'',
+    username:'',
+    place:'',
+    telephone:'',
+    time:'',
+    vname:'',
+    aaa:""
     };
   },
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
+       onClickLeft() {
+      this.$router.go(-1);
     },
 
     onConfirm(value) {
@@ -160,34 +107,44 @@ export default {
     onSubmit(values) {
       console.log("submit", values);
     },
-    code() {
-      var tel = [this.ruleForm.telephone];
-      console.log(JSON.stringify(this.ruleForm.telephone));
-      this.$axios.post("http://152.136.232.95:8089/user/sendCode", tel).then(res => {
-        console.log(res);
-        let code = res.data;
-      });
-    },
+    // code() {
+    //   var tel = [this.ruleForm.telephone];
+    //   console.log(JSON.stringify(this.ruleForm.telephone));
+    //   this.$axios.post("http://152.136.232.95:8089/user/sendCode", tel).then(res => {
+    //     console.log(res);
+    //     let code = res.data;
+    //   });
+    // },
 
     jump() {
+             this.aaa=this.$route.query.info;
+             console.log(this.aaa);
+       
+    // var tel=sessionStorage.getItem("autograph")
+    
       let obj = {
-        username: this.ruleForm.username,
-        // code:this.code,
-        name: this.ruleForm.name,
-        gender: this.ruleForm.gender,
-        birthday: this.ruleForm.birthday,
-        numberid: this.ruleForm.numberid,
-        relation: this.value,
-        address: this.ruleForm.address,
-        password: this.ruleForm.password,
-        birthhospital: this.ruleForm.birthhospital,
-        residencepermit: this.ruleForm.residencepermit,
-        birthcertificate: this.ruleForm.birthcertificate,
-        ykrecord: this.ruleForm.ykrecord
+            department:this.department,
+            doctor: this.doctor,
+            job: this.job,
+            name: this.username,
+            place:this.place,
+            telephone: this.telephone,
+            time: this.time,
+            vaccinationsite:this.position,
+            aid:this.aaa,
+            numberid:sessionStorage.getItem("numberid")
+            // autograph:sessionStorage.getItem("autograph")
+        // code:this.code1
       };
 
-      this.$axios.post("http://152.136.232.95:8089/user/modifyUserInfo", obj).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/appointRecord/modifyAppointRecord", obj).then(res => {
         console.log(res);
+        if (res.data==1) {
+          alert("修改成功")
+           this.$router.push('information?info='+this.aaa)
+        } else {
+           alert("修改失败")
+        }
       });
     },
         },

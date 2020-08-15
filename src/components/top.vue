@@ -3,7 +3,8 @@
 <div class=''>
    <van-tabbar v-model="active">
   <van-tabbar-item icon="wap-home-o" @click="jump()">首页</van-tabbar-item>
-  <van-tabbar-item icon="phone-o" @click="jump1()">预约记录</van-tabbar-item>
+  <van-tabbar-item icon="apps-o" @click="jump3()">分类</van-tabbar-item>
+  <van-tabbar-item icon="phone-o" @click="jump1()">疫苗预约</van-tabbar-item>
  <van-tabbar-item icon="https://b.yzcdn.cn/vant/icon-demo-1126.png" @click="jump2()">个人中心</van-tabbar-item>
 </van-tabbar>
 </div>
@@ -28,18 +29,26 @@ data() {
   },
   methods:{
     jump(){
-      window.location.href="home"
+      // window.location.href="home"
+      this.$router.push('home')
     },
     jump1(){
-      window.location.href="yyrecord"
+      // window.location.href="yyrecord"
+      this.$router.push('yyrecord')
+    },
+    jump3(){
+      // window.location.href="treeselect"
+      this.$router.push('treeselect')
     },
     jump2(){
       var tel=sessionStorage.getItem("telephone")
      if (tel!='') {
-       window.location.href="Personal"
+      //  window.location.href="Personal"
+       this.$router.push('Personal')
       
      } else {
-         window.location.href="login"
+        //  window.location.href="login"
+         this.$router.push('login')
      }
       
     }
@@ -47,4 +56,5 @@ data() {
 }
 </script>
 <style  scoped>
+
 </style>

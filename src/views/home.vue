@@ -4,11 +4,7 @@
    <top></top>
    <van-nav-bar
   title="主页"
-  left-text="返回"
-  right-text="按钮"
   left-arrow
-  @click-left="onClickLeft"
-  @click-right="onClickRight"
 />
    <div>
    <van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
@@ -32,21 +28,18 @@
 </van-notice-bar>
 <div style="margin-top:0.5em">
   <van-cell-group>
-  <van-cell title="疫苗知识" value="-" /></van-cell-group>
+  <van-cell title="专业医学科普知识" value="-" /></van-cell-group>
   <div style="width:100%;">
   <div class="box" v-for="(item,index) in message " :key="index" @click="jump(index)"> 
     <div class="image">
       <img :src="item.video" class="image" />
     </div>
-    <font style="margin-left:2px;">{{item.vname}}</font>
-    <div style="font-size:14px">{{item.vclass}}</div>
-    <button class="button">预约</button>
-  </div>
-  <div class="box1" v-for="(item,index) in 2 " :key="index" @click="jump(index)"> 
-
+    <div style="margin-left:2px;margin-top:10px">{{item.vname}}</div>
+    <p style="font-size:14px;margin-top:3px">{{item.vclass}}</p>
   </div>
 </div>
 </div>
+<div class="aaa"></div>
 </div>
 </template>
 
@@ -65,12 +58,7 @@ data() {
     };
   },
    methods: {
-    onClickLeft() {
-      Toast('返回');
-    },
-    onClickRight() {
-      Toast('按钮');
-    },
+   
     jump(index){
       this.$router.push('/details?info='+this.message[index].vid)
     }
@@ -98,28 +86,23 @@ data() {
   }
   .box{
     width:46%;
-    /* height:10em; */
-    /* border:1px solid black;  */
-     float: left;
-     margin-left: 2.3%;
-     	box-shadow: 1px 1px 2px #bebebe;
-  }
-    .box1{
-    width:46%;
     height:10em;
     /* border:1px solid black;  */
      float: left;
      margin-left: 2.3%;
-     	/* box-shadow: 1px 1px 2px #bebebe; */
+     	box-shadow: 1px 1px 2px #bebebe;
+       margin-top: 10px
   }
+ 
   .image{
     width: 100%;
-    height: 7em;
+    height:6em;
    
   }
-  .button{
-    font-size: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+  .aaa
+{width: 100%;
+height: 50px;
+/* position: flex; */
+border:1px sol black;
+ }
 </style>

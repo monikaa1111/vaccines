@@ -1,12 +1,11 @@
 <template>
+
     <div id="app">
 		<canvas id="myCanvas"></canvas>
 		<div class="footer">
 			<div @click="clearArea()">清除</div>
 			<div @click="saveImageInfo()">保存</div>
-			<div>
-				<input v-model="strokeStyle" type="color">
-			</div>
+
 		</div>
 	</div>
 
@@ -18,7 +17,7 @@ export default {
 		return {
 			touchPressed:false,
 			ctx:null,
-			strokeStyle:'#EE2F2F',
+			strokeStyle:'black',
 			lineWidth:2,
 			lastX:null,
 			lastY:null,
@@ -99,9 +98,7 @@ export default {
       console.log( this.canvas.toDataURL())
       	a.download = "sign";
          a.click();
-        this.$axios.post("http://152.136.232.95:8089/file/upload",this.canvas.toDataURL()).then(res=>{
-          console.log(res);
-      })
+
 		}
 	}
 };
@@ -114,7 +111,7 @@ export default {
 	position: fixed;
 	width: 100%;
 	left: 0;
-	bottom: 0;
+	bottom: 40%;
 	z-index: 10;
 	display: flex;
 	border-top: 1px solid #ccc;

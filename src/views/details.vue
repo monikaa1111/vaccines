@@ -4,13 +4,11 @@
        <van-nav-bar
         title="疫苗详情"
         left-text="返回"
-        right-text="按钮"
         left-arrow
-        @click-left="onClickLeft"
-        @click-right="onClickRight"
+        @click-right="onClickRight()"
         />
  <div class="box">
-    <video src="../video/111.mp4"  controls="controls" style="width:100%;height:100%"></video>
+    <video :src="vacc.video"  controls="controls" style="width:100%;height:100%"></video>
  </div>
  <div class="vac">
      <p style="margin-left:10px">疫苗名称：{{vacc.vname}}</p>
@@ -47,14 +45,11 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
+   onClickLeft() {
+      this.$router.go(-1);
     },
     jump(){
-        this.$router.push('/notification?vname='+this.vacc.vname)
+        this.$router.push('/inquiry?vname='+this.vacc.vname)
     },
     // jump2(){
     //     window.location.href='notification'

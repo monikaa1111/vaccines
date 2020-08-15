@@ -3,10 +3,11 @@
   <div class='div'>
     <top></top>
     <van-nav-bar
-      title="预约记录"
-      left-text="返回"
-      right-text="按钮"
+      title="疫苗预约"
+      right-text="预约接种疫苗"
+      right-arrow
       left-arrow
+      @click-right="onClickright()"
     />
     <!-- <input
       type="button"
@@ -18,18 +19,20 @@
         <input type="button" value="确认添加" class="sure"/>
     </div> -->
     <div class="box"  v-for="(item,index) in vacc " :key="index"  >
-      <div @click="jump(index)">
-      <img src="../assets/1.jpg" class="img" />
+      <div @click="jump(index)" class="box1">
+      <!-- <img src="../assets/1.jpg" class="img" /> -->
       <p class="name">{{item.vname}}</p>
       <p class="date">{{item.time}}</p>
       <p class="date1">价格：20</p>
       </div>
       <input type="button" value="删除" class="button1" @click="del(index)" />
+         <!-- <input type="button" value="修改信息" class="button2" @click="modi(index)" /> -->
       <!-- <input type="button" value="修改" class="button2"  @click="change()" />
           <div class="tian" v-show="show">
             <input type="button" value="确认修改" class="sure"/>
         </div> -->
     </div>
+    <div class="aaa"></div>
   </div>
 </template>
 
@@ -55,7 +58,9 @@ export default {
   watch: {},
     //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAllAppointRecord").then(res=>{
+       let fromdata=new FormData();
+      fromdata.append("telephone",sessionStorage.getItem("telephone"))
+     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecordByTel",fromdata).then(res=>{
         console.log(res)
         this.vacc=res.data
 
@@ -64,8 +69,13 @@ export default {
   },
   //方法集合
    methods: {
+      onClickright() {
+      // this.$router.go(-1);
+      this.$router.push('treeselect')
+    },
         jump(index){
-      this.$router.push('/details?info='+this.vacc[index].aid)
+      this.$router.push('information?info='+this.vacc[index].aid)
+      sessionStorage.setItem("vname",this.vacc[index].vname)
     },
     del(index) {
       let fromdata=new FormData();
@@ -85,6 +95,24 @@ export default {
         }
       });
     },
+    //  modi(index) {
+    //   let fromdata=new FormData();
+    //   fromdata.append("aid",this.vacc[index].aid)
+
+    //    console.log(this.vacc[index].aid)
+    //   //  let aid={
+    //   //   "aid": (this.vacc[index].aid)
+    //   //   }
+    //   this.$axios.post("http://152.136.232.95:8089/appointRecord/deleteAppointRecord",fromdata).then(res => {
+    //     console.log(res);
+    //     if (res.data==1) {
+    //       alert("修改成功")
+    //       this.$router.go(0)
+    //     } else {
+    //       alert("修改失败")
+    //     }
+    //   });
+    // },
     change(){
    this.show = !this.show
   },
@@ -98,10 +126,18 @@ export default {
 <style  scoped>
 .box {
   width: 90%;
-  height: 12em;
+  height: 6em;
   /* border:1px solid black; */
   margin: 10px auto;
   box-shadow: 1px 1px 2px 1px rgb(180, 179, 179);
+  position: relative;
+}
+.box1 {
+  width: 90%;
+  height: 6em;
+  /* border:1px solid black; */
+  margin: 10px auto;
+  /* box-shadow: 1px 1px 2px 1px rgb(180, 179, 179); */
   position: relative;
 }
 .img {
@@ -114,20 +150,20 @@ export default {
 .name {
   font-size: 20px;
   position: absolute;
-  top: 16%;
-  left: 38%;
+  top: 0%;
+  left: 10%;
 }
 .date {
   font-size: 14px;
   position: absolute;
-  top: 52%;
-  left: 38%;
+  top: 42%;
+  left: 10%;
 }
 .date1 {
   font-size: 14px;
   position: absolute;
-  top: 52%;
-  left: 70%;
+  top: 42%;
+  left: 40%;
 }
 .button {
   position: absolute;
@@ -136,13 +172,13 @@ export default {
 }
 .button1 {
   position: absolute;
-  top: 75%;
-  left: 73%;
+  top: 54%;
+  left: 66%;
 }
 .button2 {
   position: absolute;
   top: 75%;
-  left: 56%;
+  left: 45%;
 }
 .tian {
   width: 90%;
@@ -162,4 +198,9 @@ export default {
 .div{
   margin-bottom:10em
 }
+.aaa
+{width: 100%;
+height: 50px;
+/* border:1px solid black; */
+ }
 </style>

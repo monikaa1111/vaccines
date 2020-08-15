@@ -11,8 +11,11 @@
    <van-cell title="出生日期" :value="message.birthday" />
     <van-cell title="与本人关系" :value="message.relation" />
      <van-cell title="家庭住址" :value="message.address" />
-     <van-cell title="接种记录" :value="message.address" />
       <van-cell title="出生医院" :value="message.birthhospital" />
+     <van-cell title="接种记录"  />
+     
+      <van-cell title="修改个人信息" @click="modify()" />
+      <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
 </div>
 </template>
@@ -38,16 +41,26 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-
+    modify(){
+      this.$router.push('/modify1')
+    },
+        Health(){
+      this.$router.push('/Health')
+    }
 },
 created() {
+    //              this.aaa=this.$route.query.uid;
+    //    console.log(this.aaa);
     var tel=sessionStorage.getItem("telephone")
        let fromdata=new FormData();
       fromdata.append("telephone",tel)
     this.$axios.post("http://152.136.232.95:8089/user/getUserInfo",fromdata).then(res =>{
         console.log(res)
+        sessionStorage.setItem("uid",res.data[0].uid)
         this.message=res.data[0]
         console.log(this.message)
+ 
+
     })
 },
 

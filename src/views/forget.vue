@@ -6,8 +6,7 @@
       left-text
       right-text
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
+      @click-left="onClickLeft()"
     />
     <div>
       <van-form @submit="onSubmit">
@@ -80,12 +79,9 @@ export default {
       }
     };
   },
-  methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
+  methods: {  
+     onClickLeft() {
+      this.$router.go(-1);
     },
 
     onConfirm(value) {
@@ -117,7 +113,8 @@ export default {
       this.$axios.post("http://152.136.232.95:8089/user/forgetPassword",fromdata).then(res=>{
         console.log(res)
         if (res.data==1) {
-          window.location.href="login"
+          // window.location.href="login"
+          this.$router.push('login')
         } else {
           alert("修改失败，请重试")
         }

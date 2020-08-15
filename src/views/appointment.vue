@@ -6,6 +6,8 @@
         left-text="返回"
         right-text="按钮"
         left-arrow
+        
+  @click-left="onClickLeft()"
         />
       <van-form>
         <van-field
@@ -74,7 +76,24 @@
           placeholder="预约医生职务"
           :rules="[{ required: true, message: '请填写预约医生的职务' }]"
         />
-        <div style="margin-top: 16px;margin-bottom:16px">
+        <!-- <div style=" position: relative;   ">
+        <van-field
+          name=" 上传电子签名"
+          label=" 上传电子签名"
+        />
+          
+ <div class="image-view" style="margin-top:10px;">
+            <input type="file" @change="getImgBase()"   ref="file" class="inp">
+
+        <div class="view">
+            <div class="item" v-for="(item, index) in imgBase64">
+                <span class="cancel-btn" @click="delImg(index)">x</span>
+                <img :src="item">
+            </div>
+        </div>
+    </div> -->
+    <!-- </div> -->
+     <div style="margin-top: 16px;margin-bottom:16px">
     <van-button round block type="info" native-type="submit" @click="jump()">
      确认预约
     </van-button>
@@ -103,7 +122,8 @@ return {
     place:'',
     telephone:'',
     time:'',
-    vname:''
+    vname:'',
+     imgBase64:[]  
 };
 },
 //监听属性 类似于data概念
@@ -112,8 +132,38 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
+     onClickLeft() {
+      this.$router.go(-1);
+    },
+    // getImgBase(){
+    //             var _this = this;
+    //             var event = event || window.event;
+    //             var file = event.target.files[0];
+    //             var reader = new FileReader(); 
+    //             //转base64
+    //             reader.onload = function(e) {
+    //                 _this.imgBase64.push(e.target.result);
+    //             }
+    //             reader.readAsDataURL(file);
+    //         },
+    //         //删除图片
+    //         delImg(index){
+    //             this.imgBase64.splice(index,1);
+    //         },
+
 
     jump() {
+      //       var that=this
+      // let fromdata=new FormData();
+      // fromdata.append( "uploadFile",that.$refs.file.files[0])
+      //   console.log(that.$refs.file.files)
+      // this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata).then(response=>{
+      //   console.log(response)
+      //    console.log(response.data)
+      //    sessionStorage.setItem("autograph",response.data)
+      //   // window.location.href="appointment"
+
+      //   })
       //       let fromdata=new FormData();
       // fromdata.append( "ykrecord", this.ykrecord)
       // console.log(typeof(this.ykrecord))
@@ -122,6 +172,8 @@ methods: {
       //   })
        this.vname=this.$route.query.vname;
        console.log(this.vname);
+       
+    // var tel=sessionStorage.getItem("autograph")
     
       let obj = {
             department:this.department,
@@ -133,18 +185,19 @@ methods: {
             telephone: this.telephone,
             time: this.time,
             vaccinationsite:this.position,
-            vname: this.vname
+            vname: this.vname,
+            // autograph:sessionStorage.getItem("autograph")
         // code:this.code1
       };
       console.log(this.value1)
       console.log(typeof(this.value1))
-
+      sessionStorage.setItem("numberid",this.numberid)
+      console.log(this.numberid)
       this.$axios.post("http://152.136.232.95:8089/appointRecord/addAppointRecord", obj).then(res => {
         console.log(res);
         if (res.data==1) {
           alert("预约成功")
-          this.$router.go(0)
-          // window.location.href="login"
+          this.$router.push('yyrecord')
         } else {
           alert("预约失败")
         }
@@ -170,5 +223,54 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
 <style scoped>
-
+.image-view{
+        width:100%;
+        height:40px;
+        margin: auto;
+        /* border:1px solid black */
+    }
+    .image-view .item {
+        position:relative;
+        float:left;
+        height:100px;
+        width:100px;
+        margin:10px 10px 0 0;
+        margin-left: 80%;
+        margin-bottom: 10px
+        /* border:1px solid black */
+    }
+    .image-view .item .cancel-btn{
+        position:absolute;
+        right:0;
+        top:0;
+        display:block;
+        width:20px;
+        height:20px;
+        color:#fff;
+        line-height:20px;
+        text-align:center;
+        background:red;
+        border-radius:10px;
+        cursor:pointer;
+        /* border:1px solid black */
+    }
+    .image-view .item img{
+        width:100%;
+        height:100%;
+        /* border:1px solid black */
+    }
+    .image-view .view{
+        clear:both;
+        float: left;
+    
+    }
+    .inp{
+      width: 60%;
+      /* border:1px solid black;  */
+      margin-top:10px;
+      margin-left:20%;
+      position:absolute;
+      top:-1%;
+      right:11%
+    }
 </style>

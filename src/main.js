@@ -11,6 +11,12 @@ Vue.use(VueAxios,Axios)
 import 'element-ui/lib/theme-chalk/index.css';
 import vueEsign from 'vue-esign'
 Vue.use(vueEsign)
+import htmlToPdf from "../src/utils/htmlToPdf"
+Vue.use(htmlToPdf)
+
+
+Vue.use(ElementUI);
+
 // import App from './App.vue';
 
 
@@ -19,7 +25,6 @@ Vue.use(ElementUI);
 
 import { NavBar } from 'vant'; 
 Vue.use(NavBar);
-Vue.use(Axios)
 
 
 /* eslint-disable no-new */

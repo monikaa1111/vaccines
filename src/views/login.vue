@@ -69,7 +69,9 @@ return {
       this.$axios.post("http://152.136.232.95:8089/user/login",fromdata).then(res=>{
         console.log(res)
         if(res.data==1){
-          window.location.href="Personal"
+          alert("登录成功")
+          // window.location.href="Personal"
+          this.$router.push('Personal')
         }else{
           alert("用户名/密码错误")
         }

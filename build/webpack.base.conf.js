@@ -1,4 +1,5 @@
 'use strict'
+const  webpack = require('webpack')
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
@@ -22,13 +23,16 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {
-    extensions: ['.js', '.vue', '.json'],
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-    }
-  },
+  
+resolve: {
+  extensions: ['.js', '.vue', '.json'],
+  alias: {
+    'vue$': 'vue/dist/vue.esm.js',
+    '@': resolve('src'),
+    'scss_vars': '@/styles/vars.scss',
+    'excel': path.resolve(__dirname, '../src/excel'),//新增一行
+  }
+},
   module: {
     rules: [
       {
@@ -78,5 +82,14 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  // 添加代码
+plugins: [
+  new webpack.ProvidePlugin({
+ $: "jquery",
+ jQuery: "jquery",
+ jquery: "jquery",
+ "window.jQuery": "jquery"
+  })
+ ],
 }

@@ -2,12 +2,10 @@
 <template>
   <div class>
     <van-nav-bar
-      title="注册"
+      title="修改信息 "
       left-text
-      right-text
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
+      @click-left="onClickLeft()"
     />
     <div>
       <van-form @submit="onSubmit">
@@ -54,15 +52,6 @@
           </el-date-picker>
         </div> -->
         <van-field
-          v-model="ruleForm.numberid"
-          name="身份证号"
-          label="身份证号："
-          placeholder="请输入宝宝的身份证号"
-          :rules="[{ required: true, message: '请填写宝宝的身份证号' }]"
-          style="margin-top:1em"
-          type="number"
-        />
-        <van-field
           readonly
           clickable
           label="与本人关系"
@@ -78,28 +67,6 @@
             @confirm="onConfirm"
           />
         </van-popup>
-        <van-field
-          v-model="ruleForm.telephone"
-          name="手机号"
-          label="手机号："
-          placeholder="请输入您的手机号"
-          :rules="[{ required: true, message: '手机号不能为空' }]"
-          style="margin-top:1em"
-          type="number"
-        />
-        <van-field v-model="ruleForm.sms" center clearable label="短信验证码：" placeholder="请输入短信验证码">
-          <template #button>
-            <van-button size="small" type="primary" @click="code()">发送验证码</van-button>
-          </template>
-        </van-field>
-        <van-field
-          v-model="ruleForm.password"
-          type="password"
-          name="密码"
-          label="密码"
-          placeholder="密码"
-          :rules="[{ required: true, message: '请填写密码' }]"
-        />
 
         <van-field
           v-model="ruleForm.address"
@@ -117,26 +84,12 @@
           :rules="[{ required: true, message: '请填写宝宝的出生医院' }]"
           style="margin-top:1em"
         />
-               <van-field  label="居住证明：" />
-                <input type="file" @change="getImgBase()"   ref="file1" style="margin-top:10px;margin-left:20%;">
-                <van-field label="请上传宝宝的出生证明:" />
-                <input type="file" @change="getImgBase()"   ref="file" style="margin-top:10px;margin-left:20%;">
-                <van-field  label="乙肝和卡介苗接种记录：" />
-        <input type="file" @change="getImgBase()"   ref="file2" style="margin-top:10px;margin-left:20%;">
-        <div class="image-view" style="margin-top:10px;">
-                <div class="view">
-                    <div class="item" v-for="(item, index) in imgBase64">
-                        <span class="cancel-btn" @click="delImg(index)">x</span>
-                        <img :src="item">
-                    </div>
-                </div>
-            </div>
+
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">注册</van-button>
+          <van-button round block type="info" native-type="submit" @click="jump()">修改</van-button>
         </div>
       </van-form>
     </div>
-    <div class="font" @click="jump11()">已有账号？立即登录</div>
   </div>
 </template>
 
@@ -160,7 +113,6 @@ export default {
         password: "",
         gender: "",
         birthday: "",
-        numberid: "",
         telephone: "",
         address: "",
         birthhospital: "",
@@ -176,7 +128,8 @@ export default {
         residencepermit: "",
         birthcertificate: "",
         ykrecord: "",
-        imgBase64:[] 
+        imgBase64:[] ,
+        uid:""
     };
   },
   methods: {
@@ -202,13 +155,9 @@ export default {
     jump11() {
       this.$router.push('/login')
     },
-    onClickLeft() {
-      Toast("返回");
+       onClickLeft() {
+      this.$router.go(-1);
     },
-    onClickRight() {
-      Toast("按钮");
-    },
-
     onConfirm(value) {
       this.value = value;
       this.showPicker = false;
@@ -220,100 +169,34 @@ export default {
     onSubmit(values) {
       console.log("submit", values);
     },
-    code() {
-      var tel = [this.ruleForm.telephone];
-      console.log(JSON.stringify(this.ruleForm.telephone));
-      this.$axios.post("http://152.136.232.95:8089/user/sendCode", tel).then(res => {
-        console.log(res);
-        this.code1 = res.data;
-      });
-    },
 
     jump() {
-        //  if (this.username=='') {
-        //   alert("用户名不能为空")
-        // } 
-        // if (this.name=='') {
-        //   alert("姓名不能为空")
-        // }
-        // if (this.telephone=='') {
-        //   alert("手机号不能为空")
-        // }
-        // if (this.gender=='') {
-        //   alert("性别不能为空")
-        // }
-        // if (this.birthday=='') {
-        //   alert("出生日期不能为空")
-        // }
-        // if (this.numberid=='') {
-        //   alert("身份证号不能为空")
-        // }
-        // if (this.address=='') {
-        //   alert("家庭地址不能为空")
-        // }
-        // if (this.birthhospital=='') {
-        //   alert("出生医院不能为空")
-        // }
-        // if (this.password=='') {
-        //   alert("密码不能为空")
-        // }
       var that=this
-      let fromdata=new FormData();
-       fromdata.append( "uploadFile",that.$refs.file.files[0])
-        console.log(that.$refs.file.files[0])
-      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata).then(response=>{
-        console.log(response)
-         console.log(response.data)
-         sessionStorage.setItem("birthcertificate",response.data)
-
-        })
-        let fromdata1=new FormData();
-       fromdata1.append( "uploadFile",that.$refs.file1.files[0])
-        console.log(that.$refs.file1.files[0])
-      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata1).then(response1=>{
-        console.log(response1)
-         console.log(response1.data)
-         sessionStorage.setItem("residencepermit",response1.data)
-
-        })
-        let fromdata2=new FormData();
-       fromdata2.append( "uploadFile",that.$refs.file2.files[0])
-        console.log(that.$refs.file2.files[0])
-      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata2).then(response2=>{
-        console.log(response2)
-         console.log(response2.data)
-         sessionStorage.setItem("ykrecord",response2.data)
-
-        })
-
+        this.uid=this.$route.query.uid;
+    console.log(this.uid);
       let obj = {
         username: this.ruleForm.username,
         // code:this.code,
         name: this.ruleForm.name,
-        telephone:this.ruleForm.telephone,
         gender: this.ruleForm.gender,
         birthday: this.value1+'',
         numberid: this.ruleForm.numberid,
         relation: this.value,
         address: this.ruleForm.address,
-        password: this.ruleForm.password,
         birthhospital: this.ruleForm.birthhospital,
-        code:this.code1,
-        birthcertificate:sessionStorage.getItem("birthcertificate"),
-        residencepermit:sessionStorage.getItem("residencepermit"),
-        ykrecord:sessionStorage.getItem("ykrecord"),
+        uid:sessionStorage.getItem("uid")
       };
       console.log(this.value1)
       console.log(typeof(this.value1))
 
-      this.$axios.post("http://152.136.232.95:8089/user/register", obj).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/user/modifyUserInfo", obj).then(res => {
         console.log(res);
         if (res.data==1) {
-          alert("注册成功，请稍等...")
-          // window.location.href="login"
-          this.$router.push('login')
+          alert("修改成功，请稍等...")
+          // window.location.href="Personal"
+          this.$router.push('Personal')
         } else {
-          alert("您已注册，请直接登录")
+          alert("修改失败，请重试")
         }
       });
     }
