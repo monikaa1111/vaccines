@@ -12,8 +12,8 @@
     <van-cell title="与本人关系" :value="message.relation" />
      <van-cell title="家庭住址" :value="message.address" />
       <van-cell title="出生医院" :value="message.birthhospital" />
-     <van-cell title="接种记录"  />
-     
+     <van-cell title="医学行为记录" @click="Medicalbehavior()" />
+      <van-cell title="管理家庭成员"  @click="addfamily()"/>
       <van-cell title="修改个人信息" @click="modify()" />
       <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
@@ -44,8 +44,14 @@ methods: {
     modify(){
       this.$router.push('/modify1')
     },
+    addfamily(){
+      this.$router.push('/addfamily')
+    },
         Health(){
       this.$router.push('/Health')
+    },
+    Medicalbehavior(){
+        this.$router.push('Medicalbehavior?numberid='+this.message.numberid)
     }
 },
 created() {

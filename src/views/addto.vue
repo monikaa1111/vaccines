@@ -2,28 +2,19 @@
 <template>
   <div class>
     <van-nav-bar
-      title="注册"
+      title="管理家庭成员"
       left-text
       right-text
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
+      @click-left="onClickLeft()"
     />
     <div>
       <van-form @submit="onSubmit">
         <van-field
-          v-model="ruleForm.name"
-          name="用户名"
-          label="用户名："
-          placeholder="请输入您的用户名"
-          :rules="[{ required: true, message: '请填写您的用户名' }]"
-          style="margin-top:1em"
-        />
-        <van-field
           v-model="ruleForm.username"
           name="姓名"
           label="姓名："
-          placeholder="请输入您的姓名"
+          placeholder="请输入姓名"
           :rules="[{ required: true, message: '请填写真实姓名' }]"
           style="margin-top:1em"
         />
@@ -31,7 +22,7 @@
           v-model="ruleForm.gender"
           name="性别"
           label="性别："
-          placeholder="请输入您的性别"
+          placeholder="请输入性别"
           :rules="[{ required: true, message: '此选项不能为空' }]"
           style="margin-top:1em"
         />
@@ -39,8 +30,8 @@
           v-model="value1"
           name="出生日期"
           label="出生日期："
-          placeholder="请输入宝宝的出生日期，格式为xxxx-xx-xx"
-          :rules="[{ required: true, message: '请填写您的出生日期' }]"
+          placeholder="请输入出生日期，格式为xxxx-xx-xx"
+          :rules="[{ required: true, message: '请填写出生日期' }]"
           style="margin-top:1em"
           type="date"
         />
@@ -57,8 +48,8 @@
           v-model="ruleForm.numberid"
           name="身份证号"
           label="身份证号："
-          placeholder="请输入宝宝的身份证号"
-          :rules="[{ required: true, message: '请填写宝宝的身份证号' }]"
+          placeholder="请输入身份证号"
+          :rules="[{ required: true, message: '请填写身份证号' }]"
           style="margin-top:1em"
           type="number"
         />
@@ -78,7 +69,7 @@
             @confirm="onConfirm"
           />
         </van-popup>
-        <van-field
+        <!-- <van-field
           v-model="ruleForm.telephone"
           name="手机号"
           label="手机号："
@@ -91,35 +82,35 @@
           <template #button>
             <van-button size="small" type="primary" @click="code()">发送验证码</van-button>
           </template>
-        </van-field>
-        <van-field
+        </van-field> -->
+        <!-- <van-field
           v-model="ruleForm.password"
           type="password"
           name="密码"
           label="密码"
           placeholder="密码"
           :rules="[{ required: true, message: '请填写密码' }]"
-        />
+        /> -->
 
         <van-field
           v-model="ruleForm.address"
           name="家庭住址"
           label="家庭住址："
-          placeholder="请输入您的家庭住址"
-          :rules="[{ required: true, message: '请填写您的家庭住址' }]"
+          placeholder="请输入家庭住址"
+          :rules="[{ required: true, message: '请填写家庭住址' }]"
           style="margin-top:1em"
         />
         <van-field
           v-model="ruleForm.birthhospital"
           name="出生医院"
           label="出生医院："
-          placeholder="请输入宝宝的出生医院"
-          :rules="[{ required: true, message: '请填写宝宝的出生医院' }]"
+          placeholder="请输入出生医院"
+          :rules="[{ required: true, message: '请填写出生医院' }]"
           style="margin-top:1em"
         />
                <van-field  label="居住证明：" />
                 <input type="file" @change="getImgBase()"   ref="file1" style="margin-top:10px;margin-left:15%;">
-                <van-field label="请上传宝宝的出生证明:" />
+                <van-field label="请上传出生证明:" />
                 <input type="file" @change="getImgBase()"   ref="file" style="margin-top:10px;margin-left:15%;">
                 <van-field  label="乙肝和卡介苗接种记录：" />
         <input type="file" @change="getImgBase()"   ref="file2" style="margin-top:10px;margin-left:15%;">
@@ -132,11 +123,11 @@
                 </div>
             </div>
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">注册</van-button>
+          <van-button round block type="info" native-type="submit" @click="jump()">添加</van-button>
         </div>
       </van-form>
     </div>
-    <div class="font" @click="jump11()">已有账号？立即登录</div>
+    <!-- <div class="font" @click="jump11()">已有账号？立即登录</div> -->
   </div>
 </template>
 
@@ -180,6 +171,9 @@ export default {
     };
   },
   methods: {
+     onClickLeft() {
+      this.$router.go(-1);
+    },
      getImgBase(){
                 var _this = this;
                 var event = event || window.event;
@@ -202,12 +196,7 @@ export default {
     jump11() {
       this.$router.push('/login')
     },
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
+ 
 
     onConfirm(value) {
       this.value = value;
@@ -220,19 +209,19 @@ export default {
     onSubmit(values) {
       console.log("submit", values);
     },
-    code() {
-      var tel = [this.ruleForm.telephone];
-      console.log(JSON.stringify(this.ruleForm.telephone));
-      this.$axios.post("http://152.136.232.95:8089/user/sendCode",tel).then(res => {
-        console.log(res);
-        this.code1 = res.data;
-        if (res.data!="") {
-          alert("验证码发送成功")
-        } else {
+    // code() {
+    //   var tel = [this.ruleForm.telephone];
+    //   console.log(JSON.stringify(this.ruleForm.telephone));
+    //   this.$axios.post("http://152.136.232.95:8089/user/sendCode",tel).then(res => {
+    //     console.log(res);
+    //     this.code1 = res.data;
+    //     if (res.data!="") {
+    //       alert("验证码发送成功")
+    //     } else {
           
-        }
-      });
-    },
+    //     }
+    //   });
+    // },
 
     jump() {
       var that=this
@@ -268,15 +257,14 @@ export default {
         username: this.ruleForm.username,
         // code:this.code,
         name: this.ruleForm.name,
-        telephone:this.ruleForm.telephone,
+        telephone:sessionStorage.getItem("telephone"),
         gender: this.ruleForm.gender,
         birthday: this.value1+'',
         numberid: this.ruleForm.numberid,
         relation: this.value,
         address: this.ruleForm.address,
-        password: this.ruleForm.password,
         birthhospital: this.ruleForm.birthhospital,
-        code:this.code1,
+        // code:this.code1,
         birthcertificate:sessionStorage.getItem("birthcertificate"),
         residencepermit:sessionStorage.getItem("residencepermit"),
         ykrecord:sessionStorage.getItem("ykrecord"),
@@ -285,14 +273,14 @@ export default {
       console.log(typeof(this.value1))
      
 
-      this.$axios.post("http://152.136.232.95:8089/user/register", obj).then(res => {
+      this.$axios.post("http://152.136.232.95:8089/user/addUser", obj).then(res => {
         console.log(res);
         if (res.data==1) {
-          alert("注册成功，请稍等...")
+          alert("添加成功，请稍等...")
           // window.location.href="login"
-          this.$router.push('login')
+          this.$router.push('addfamily')
         } else {
-          alert("注册失败")
+          alert("添加失败")
         }
       });
     }

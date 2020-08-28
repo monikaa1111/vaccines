@@ -2,7 +2,7 @@
 <template>
   <div class>
     <van-nav-bar
-      title="修改信息 "
+      title="修改个人信息 "
       left-text
       left-arrow
       @click-left="onClickLeft()"

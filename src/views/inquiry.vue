@@ -8,7 +8,7 @@
       
       @click-left="onClickLeft()"
     />
-    <p class="title">健康状况询问表</p>
+    <!-- <p class="title">健康状况询问表</p> -->
      <p class="font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下问题可帮助确定受种者是否可以预约本疫苗。请认真查阅后如果符合宝宝的自身情况之后进行预约。</p>
      <p style="margin-left:5%">1.近 1 周有发热等不舒服吗？</p>
      <p style="margin-left:5%">2.是否对药物、食物、疫苗等过敏？</p>
@@ -20,7 +20,13 @@
      <p style="margin-left:5%">8.在过去的一年内，是否接受过输血或血液制品、或使用过免疫球蛋白？</p>
      <p style="margin-left:5%">9.在过去 1 个月内是否接种过疫苗？</p>
      <p style="margin-left:5%">10.是否怀孕或有可能 3  个月内怀孕？（仅需询问育龄妇女）</p>
-     <button style="margin-left:41%;margin-top:20px;margin-bottom:10px" @click="jump()">去预约</button>
+     <!-- <button style="margin-left:41%;margin-top:20px;margin-bottom:10px" @click="jump()">去预约</button> -->
+         <div style="margin: 16px;margin-top:30px">
+          <van-button round block type="info" @click="jump()">去预约</van-button>
+        </div>
+         <!-- <div style="margin:auto;margin-top:30px;width:60%;height:4em">
+                 <van-button type="info" @click="jump()" style="width:100%; border-radius:10px">预约</van-button>
+             </div> -->
 </div>
 </template>
 

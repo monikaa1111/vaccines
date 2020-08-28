@@ -22,6 +22,14 @@ import inquiry from '@/views/inquiry'
 import information from '@/views/information'
 import inoculation from '@/views/inoculation'
 import treeselect from '@/views/treeselect'
+import classification from '@/views/classification'
+import addfamily from '@/views/addfamily'
+import Familypersonal from '@/views/Familypersonal'
+import addto from '@/views/addto'
+import modify2 from '@/views/modify2'
+import yyrecord1 from '@/views/yyrecord1'
+import Vaccinationrecords from '@/views/Vaccinationrecords'
+import Medicalbehavior from '@/views/Medicalbehavior'
 Vue.use(Vant);
 
 
@@ -130,6 +138,47 @@ export default new Router({
       path: '/ewm',
       name: 'ewm',
       component: ewm
+    },
+    {
+      path: '/classification',
+      name: 'classification',
+      component: classification
+    },
+    {
+      path: '/addfamily',
+      name: 'addfamily',
+      component: addfamily
+    },
+    {
+      path: '/Familypersonal',
+      name: 'Familypersonal',
+      component: Familypersonal
+    },
+    {
+      path: '/addto',
+      name: 'addto',
+      component: addto
+    },
+    {
+      path: '/Medicalbehavior',
+      name: 'Medicalbehavior',
+      component: Medicalbehavior
+    },
+    {
+      path: '/modify2',
+      name: 'modify2',
+      component: modify2
+    },
+    {
+      path: '/yyrecord1',
+      name: 'yyrecord1',
+      component: yyrecord1
+    },
+
+    {
+      path: '/Vaccinationrecords',
+      name: 'Vaccinationrecords',
+      component: Vaccinationrecords
     },
   ]
 })

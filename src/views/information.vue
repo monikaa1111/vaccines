@@ -4,12 +4,14 @@
         <van-nav-bar
       title="疫苗预约"
       left-text="返回"
+      right-text="修改预约信息"
       left-arrow
-      
+      @click-right="onClickright()"
       @click-left="onClickLeft()"
     />
     <div class="box1">
-        <p style="margin-left:5%">疫苗名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{vacc.vname}}</p>
+        <p style="margin-left:5%;width:33%;float: left;">疫苗名称：</p>
+        <p>{{vacc.vname}}</p>
     </div>
     <div class="box1">
         <p style="margin-left:5%">预约姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{vacc.name}}</p>
@@ -29,17 +31,17 @@
         <div class="box1">
         <p style="margin-left:5%">预约地点：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{vacc.place}}</p>
     </div>
-        
+<!--         
         <div class="box1">
         <p style="margin-left:5%">预约医生科室：&nbsp;&nbsp;&nbsp;{{vacc.department}}</p>
-    </div>
+    </div> -->
         <!-- <div class="box1">
         <p style="margin-left:5%">预约医生职务：&nbsp;&nbsp;&nbsp;{{vacc.job}}</p>
     </div> -->
-         <button @click="jump1()" class="yes1">去接种</button>
-
-
-      <input type="button" value="修改信息" class="button2"  @click="change()" />
+         <!-- <button @click="jump1()" class="yes1">去接种</button> -->
+          <div style="margin: 16px;margin-top:20px">
+          <van-button round block type="info" @click="jump1()">去接种</van-button>
+        </div>
       
 <!-- <button @click="clickGeneratePicture()" id="outTable">下载</button> -->
 
@@ -78,6 +80,9 @@ methods: {
        onClickLeft() {
       this.$router.go(-1);
     },
+    onClickright(){
+ this.$router.push('modify?info='+this.vacc.aid)
+    },
      jump1(){
           this.$router.push('inoculation?info='+this.vacc.aid)
     },
@@ -97,9 +102,6 @@ methods: {
       });
       
     },
-change(){
-    this.$router.push('modify?info='+this.vacc.aid)
-}
 },
 created() {
     
@@ -125,14 +127,15 @@ created() {
 <style scoped>
 .box1{
     width: 100%;
-    height: 3em;
+    /* height: 3em; */
     border:1px solid rgb(230, 230, 230);
     border-right:none;
     border-left:none;  
 }
 .button2 {
   margin-left:10%;
-  margin-top: 50px 
+  margin-top: 50px ;
+  
 }
 .tian {
   width: 90%;

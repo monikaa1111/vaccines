@@ -73,14 +73,18 @@
       right:10%">导出word文档</button>
     </div>
 
-     <div style=" position: relative;width:100%;height：50px;">
-      <p style="margin-left:5%">上传word文档:</p>
+     <div style=" position: relative;width:100%;height:80px;">
+      <p style="margin-left:5%;">上传word文档:</p>
       <div class="image-view1" style="margin-top:10px;">
             <input type="file"   ref="file1" class="inp1">
     </div> 
+    <button @click="jump()" style="position:absolute;right:8%">提交文档</button>
     </div>
         <div style="position: relative;width:100%;height：50px;clear:both;">
-    <button id="outTable" class="yes11"    @click="change()" >提交</button>
+           <div style="margin: 16px;margin-top:30px">
+          <van-button round block type="info" @click="change()">提交</van-button>
+        </div>
+    <!-- <button id="outTable" class="yes11"    @click="change()" >提交</button> -->
     </div>
 <!-- <button style="margin-left:43%;margin-top:20px" @click="jump()">提交</button> -->
       <!-- <div class="box">
@@ -237,6 +241,17 @@ export default {
         this.myHtmlCode10 = e.target.innerHTML;
         console.log('Text: %o', this.myHtmlCode );
     },
+    jump(){
+       var that=this
+       let fromdata1=new FormData();
+           fromdata1.append( "aid",sessionStorage.getItem("aid"))
+      fromdata1.append( "uploadFile",that.$refs.file1.files[0])
+        console.log(that.$refs.file.files)
+      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata1).then(res=>{
+        console.log(res)
+        sessionStorage.setItem("letterthird",res.data)
+        })
+    },
 change(){
        var that=this
       let fromdata=new FormData();
@@ -249,14 +264,7 @@ change(){
         // window.location.href="appointment"
 
         })
-          let fromdata1=new FormData();
-           fromdata1.append( "aid",sessionStorage.getItem("aid"))
-      fromdata1.append( "uploadFile",that.$refs.file1.files[0])
-        console.log(that.$refs.file.files)
-      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata1).then(res=>{
-        console.log(res)
-        sessionStorage.setItem("letterthird",res.data)
-        })
+         
          let fromdata2=new FormData();
          fromdata2.append( "aid",sessionStorage.getItem("aid"))
       fromdata2.append( "letterthird",sessionStorage.getItem("letterthird"))
@@ -418,7 +426,7 @@ change(){
       margin-top:10px;
       margin-left:20%;
       position:absolute;
-      top:0%;
+      top:-13%;
       right:2%
     }
     .yes11{

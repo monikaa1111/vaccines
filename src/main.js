@@ -11,8 +11,8 @@ Vue.use(VueAxios,Axios)
 import 'element-ui/lib/theme-chalk/index.css';
 import vueEsign from 'vue-esign'
 Vue.use(vueEsign)
-import htmlToPdf from "../src/utils/htmlToPdf"
-Vue.use(htmlToPdf)
+import Vuex from 'vuex'
+Vue.use(Vuex)
 
 
 Vue.use(ElementUI);

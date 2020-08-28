@@ -3,18 +3,16 @@
 <div class=''>
    <top></top>
    <van-nav-bar
-  title="主页"
-  left-arrow
+  title="疫苗知识"
 />
    <div>
    <van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
-  <van-swipe-item>1</van-swipe-item>
-  <van-swipe-item>2</van-swipe-item>
-  <van-swipe-item>3</van-swipe-item>
-  <van-swipe-item>4</van-swipe-item>
+    <van-swipe-item v-for="item in banner.length" :key="item" style="height:200px">
+            <img :src="banner[item-1]"  style="width:100%;height:100%"/>
+    </van-swipe-item>
 </van-swipe>
 </div>
-<van-notice-bar left-icon="volume-o" :scrollable="false">
+<!-- <van-notice-bar left-icon="volume-o" :scrollable="false">
   <van-swipe
     vertical
     class="notice-swipe"
@@ -25,10 +23,10 @@
     <van-swipe-item>内容 2</van-swipe-item>
     <van-swipe-item>内容 3</van-swipe-item>
   </van-swipe>
-</van-notice-bar>
+</van-notice-bar> -->
 <div style="margin-top:0.5em">
   <van-cell-group>
-  <van-cell title="专业医学科普知识" value="-" /></van-cell-group>
+  <van-cell title="专业医学科普知识" value="-" @click="jump2()" /></van-cell-group>
   <div style="width:100%;">
   <div class="box" v-for="(item,index) in message " :key="index" @click="jump(index)"> 
     <div class="image">
@@ -37,9 +35,10 @@
     <div style="margin-left:2px;margin-top:10px">{{item.vname}}</div>
     <p style="font-size:14px;margin-top:3px">{{item.vclass}}</p>
   </div>
+   <div class="box1" v-for="(item,index) in 2 " :key="index" >
+  </div>
 </div>
 </div>
-<div class="aaa"></div>
 </div>
 </template>
 
@@ -54,7 +53,12 @@ components: {
 },
 data() {
     return {
-      message:[]
+      message:[],
+      banner:[
+           require("../assets/t1.png"),
+           require("../assets/t1.png"),
+           require("../assets/t1.png")
+       ],
     };
   },
    methods: {
@@ -86,23 +90,25 @@ data() {
   }
   .box{
     width:46%;
-    height:10em;
+    height:12em;
     /* border:1px solid black;  */
      float: left;
      margin-left: 2.3%;
      	box-shadow: 1px 1px 2px #bebebe;
        margin-top: 10px
   }
- 
+   .box1{
+    width:46%;
+    height:12em;
+    /* border:1px solid black;  */
+     float: left;
+     margin-left: 2.3%;
+     	/* box-shadow: 1px 1px 2px #bebebe; */
+       margin-top: 10px
+  }
   .image{
     width: 100%;
     height:6em;
    
   }
-  .aaa
-{width: 100%;
-height: 50px;
-/* position: flex; */
-border:1px sol black;
- }
 </style>

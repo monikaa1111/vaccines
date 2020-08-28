@@ -2,7 +2,7 @@
 <template>
   <div class>
     <van-nav-bar
-      title="修改信息"
+      title="修改预约信息"
       left-text
       left-arrow
       @click-left="onClickLeft()"
@@ -24,13 +24,13 @@
           :rules="[{ required: true, message: '请填写家长电话' }]"
           type="number"
         />
-       <van-field
+       <!-- <van-field
           v-model="position"
           name="接种部位"
           label="接种部位"
           placeholder="接种部位"
           :rules="[{ required: true, message: '请填写接种部位' }]"
-        />
+        /> -->
         <van-field
           v-model="time"
           name="预约时间"
@@ -47,20 +47,14 @@
           :rules="[{ required: true, message: '请填写预约地点' }]"
         />
 
-                        <van-field
+                        <!-- <van-field
           v-model="department"
           name="预约医生科室"
           label="预约医生科室"
           placeholder="预约医生科室"
           :rules="[{ required: true, message: '请填写预约医生的科室' }]"
-        />
-                        <van-field
-          v-model="job"
-          name="预约医生职务"
-          label="预约医生职务"
-          placeholder="预约医生职务"
-          :rules="[{ required: true, message: '请填写预约医生的职务' }]"
-        />
+        /> -->
+                        
         <div style="margin: 16px;">
           <van-button round block type="info" @click="jump()">修改</van-button>
         </div>
@@ -123,14 +117,12 @@ export default {
     // var tel=sessionStorage.getItem("autograph")
     
       let obj = {
-            department:this.department,
             doctor: this.doctor,
             job: this.job,
             name: this.username,
             place:this.place,
             telephone: this.telephone,
             time: this.time,
-            vaccinationsite:this.position,
             aid:this.aaa,
             numberid:sessionStorage.getItem("numberid")
             // autograph:sessionStorage.getItem("autograph")

@@ -5,7 +5,7 @@
         title="疫苗详情"
         left-text="返回"
         left-arrow
-        @click-right="onClickRight()"
+        @click-left="onClickLeft()"
         />
  <div class="box">
     <video :src="vacc.video"  controls="controls" style="width:100%;height:100%"></video>
@@ -20,7 +20,10 @@
      <p style="margin-left:10px">价格：{{vacc.price}}</p>
     
  </div>
-      <button style="margin-left:10px" @click="jump()">预约</button>
+      <!-- <button style="margin-left:10px" @click="jump()">预约</button> -->
+          <div style="margin: 16px;margin-top:20px">
+          <van-button round block type="info" @click="jump()">预约</van-button>
+        </div>
      <!-- <button style="margin-left:10px" @click="jump2()">电子告知书</button> -->
 </div>
 </template>

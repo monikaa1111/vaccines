@@ -1,12 +1,21 @@
 <!--  -->
 <template>
 <div class=''>
-   <van-tabbar v-model="active">
-  <van-tabbar-item icon="wap-home-o" @click="jump()">首页</van-tabbar-item>
+  
+  <router-view />
+
+<van-tabbar route active-color="#1989fa">
+ <van-tabbar-item icon="wap-home-o" to="home">疫苗知识</van-tabbar-item>
+  <van-tabbar-item icon="apps-o" to="treeselect">疫苗分类</van-tabbar-item>
+  <van-tabbar-item icon="phone-o" to="yyrecord">疫苗预约</van-tabbar-item>
+  <van-tabbar-item icon="user-circle-o" @click="jump2()">个人中心</van-tabbar-item>
+</van-tabbar>
+<!-- <van-tabbar v-model="active" route>
+  <van-tabbar-item icon="wap-home-o" to="home">首页</van-tabbar-item>
   <van-tabbar-item icon="apps-o" @click="jump3()">分类</van-tabbar-item>
   <van-tabbar-item icon="phone-o" @click="jump1()">疫苗预约</van-tabbar-item>
- <van-tabbar-item icon="https://b.yzcdn.cn/vant/icon-demo-1126.png" @click="jump2()">个人中心</van-tabbar-item>
-</van-tabbar>
+  <van-tabbar-item icon="user-circle-o" @click="jump2()">个人中心</van-tabbar-item>
+</van-tabbar> -->
 </div>
 </template>
 
@@ -19,14 +28,9 @@ export default {
 components: {},
 data() {
     return {
-      active: '',
-      icon: {
-        active: 'https://img.yzcdn.cn/vant/user-active.png',
-        inactive: 'https://img.yzcdn.cn/vant/user-inactive.png',
-      },
+      active:'',
     };
-    
-  },
+},
   methods:{
     jump(){
       // window.location.href="home"

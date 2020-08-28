@@ -4,11 +4,26 @@
            <van-nav-bar
         title="确认预约"
         left-text="返回"
-        right-text="按钮"
         left-arrow
         
   @click-left="onClickLeft()"
         />
+          <van-field
+          readonly
+          clickable
+          label="为谁预约"
+          :value="value"
+          placeholder="请选择"
+          @click="showPicker = true"
+        />
+        <van-popup v-model="showPicker" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columns"
+            @cancel="showPicker = false"
+            @confirm="onConfirm"
+          />
+        </van-popup>
       <van-form>
         <van-field
           v-model="username"
@@ -33,13 +48,13 @@
           :rules="[{ required: true, message: '请填写家长电话' }]"
           type="number"
         />
-       <van-field
+       <!-- <van-field
           v-model="position"
           name="预约部位"
           label="预约部位"
           placeholder="预约部位"
           :rules="[{ required: true, message: '请填写预约部位' }]"
-        />
+        /> -->
         <van-field
           v-model="time"
           name="预约时间"
@@ -50,18 +65,18 @@
         />
                 <van-field
           v-model="place"
-          name="预约地点"
-          label="预约地点"
-          placeholder="预约地点"
-          :rules="[{ required: true, message: '请填写预约地点' }]"
+          name="预约医院"
+          label="预约医院"
+          placeholder="预约医院"
+          :rules="[{ required: true, message: '请填写预约医院' }]"
         />
-                        <van-field
+                        <!-- <van-field
           v-model="doctor"
           name="预约医生"
           label="预约医生"
           placeholder="预约医生"
           :rules="[{ required: true, message: '请填写预约医生' }]"
-        />
+        /> -->
                         <van-field
           v-model="department"
           name="预约医生科室"
@@ -69,13 +84,7 @@
           placeholder="预约医生科室"
           :rules="[{ required: true, message: '请填写预约医生的科室' }]"
         />
-                        <van-field
-          v-model="job"
-          name="预约医生职务"
-          label="预约医生职务"
-          placeholder="预约医生职务"
-          :rules="[{ required: true, message: '请填写预约医生的职务' }]"
-        />
+                     
         <!-- <div style=" position: relative;   ">
         <van-field
           name=" 上传电子签名"
@@ -115,7 +124,6 @@ data() {
 return {
   position:'',
     department:'',
-    doctor:'',
     job:'',
     username:'',
     numberid:'',
@@ -123,7 +131,10 @@ return {
     telephone:'',
     time:'',
     vname:'',
-     imgBase64:[]  
+     imgBase64:[],
+     value: "",
+    showPicker: false,
+      columns: ["本人", "夫妻", "父母", "子女", "兄弟姐妹"],  
 };
 },
 //监听属性 类似于data概念
@@ -132,6 +143,10 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
+    onConfirm(value) {
+      this.value = value;
+      this.showPicker = false;
+    },
      onClickLeft() {
       this.$router.go(-1);
     },
@@ -174,17 +189,19 @@ methods: {
        console.log(this.vname);
        
     // var tel=sessionStorage.getItem("autograph")
+    if (this.department==''||this.username==''||this.numberid==''||this.place==''|| this.telephone==''||this.time=='') {
+      alert("您的信息不完善，请去完善信息..")
+    } else {
+      
     
       let obj = {
             department:this.department,
-            doctor: this.doctor,
             job: this.job,
             name: this.username,
             numberid:this.numberid,
             place:this.place,
             telephone: this.telephone,
             time: this.time,
-            vaccinationsite:this.position,
             vname: this.vname,
             // autograph:sessionStorage.getItem("autograph")
         // code:this.code1
@@ -202,6 +219,7 @@ methods: {
           alert("预约失败")
         }
       });
+      }
     }
 
 },

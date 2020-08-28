@@ -31,9 +31,11 @@
       登录
     </van-button>
   </div>
+</van-form>
+  <div style="position: relative;width:100%;height:4em">
    <div class="font1" @click="jump1()">忘记密码</div>
   <div class="font" @click="jump()">没有账号？立即注册</div>
-</van-form>
+  </div>
 </div>
 </div>
 </template>
@@ -68,12 +70,16 @@ return {
       fromdata.append("password",this.password)
       this.$axios.post("http://152.136.232.95:8089/user/login",fromdata).then(res=>{
         console.log(res)
-        if(res.data==1){
+          console.log(res.data.password)
+        localStorage.setItem("res",res.data)
+      
+        if(res.data.password !='' &&  res.data.password != undefined ){
           alert("登录成功")
           // window.location.href="Personal"
           this.$router.push('Personal')
         }else{
-          alert("用户名/密码错误")
+           alert("用户名/密码错误")
+         
         }
        
       })
@@ -119,7 +125,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   font-size: 12px;
   color: rgb(136, 136, 136);
   position: absolute;
-  top: 35.8%;
+  top: 1.8%;
   left: 3%
 }
 

@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div>
-    <van-nav-bar title="电子告知书" left-text="返回" right-text="按钮" left-arrow   @click-left="onClickLeft()"/>
+    <van-nav-bar title="电子告知书" left-text="返回"  left-arrow   @click-left="onClickLeft()"/>
     <!-- <p>
             那天看到一段话大概是说，好像爱一个人就总会觉得ta很可怜，就像你只是一个人住，吃了顿外卖。你爸妈就会说在外面住很可怜，一个人吃饭很可怜。
       我觉得还挺有道理的，不喜欢一个人的话，当对方遇到不好时就想划清界限;而很喜欢一个人的话，看到对方出现一点狼狈心都会碎。四五年前遇到过一个女孩，那时候谈不上多喜欢她，就觉得她足够高挑好看又很酷，可以当女朋友。当时我们日常约会，关系一步步发展。后来有一天我们一起上楼，她在进电梯时被电梯门轻轻夹了一下，电梯里很多人气氛有点尴加，那一瞬间她有点面露难色、失态狼狈。回
@@ -19,7 +19,10 @@
         <div style="margin-left:10px;">
           <div>
            
-           <button @click="jump()" class="yes">预约疫苗</button>
+           <!-- <button @click="jump()" class="yes">预约疫苗</button> -->
+               <div style="margin: 16px;margin-top:20px">
+          <van-button round block type="info" @click="jump()" class="yes">预约疫苗</van-button>
+        </div>
            </div>
        </div>
     <!-- <button style="margin-top:10px;margin-left:2.5%" @click="jump1()"><a href="ele">签名</a> <input type="file"  ref="file" ></button> -->
@@ -86,7 +89,7 @@ created() {
     /* border:1px solid black; */
 }
 .yes{
-  margin-left:37.5%;
+  /* margin-left:37.5%; */
   margin-top: 50px
 
 }
