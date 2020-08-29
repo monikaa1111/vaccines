@@ -72,7 +72,7 @@ return {
         console.log(res)
           console.log(res.data.password)
         localStorage.setItem("res",res.data)
-      
+      sessionStorage.setItem("numberid",res.data.numberid)
         if(res.data.password !='' &&  res.data.password != undefined ){
           alert("登录成功")
           // window.location.href="Personal"

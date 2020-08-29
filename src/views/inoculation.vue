@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <div class="boxx" id="export_content">
+  <div class="boxx" id="print">
     <van-nav-bar
       title="受种者健康状况询问表 "
       left-text
@@ -158,22 +158,22 @@
           <td contenteditable="true" @input="onDivInput10($event)" style="width:3em;"></td>
         </tr>
       </table>
-      <div style="position: relative;width:100%;height:27px;clear:both;">
+      <!-- <div style="position: relative;width:100%;height:27px;clear:both;">
         <button
           @click="printOut()"
           id="outTable"
           style="margin-left:5%;color:blue; position:absolute;
       right:10%;margin-top:10px"
         >导出word文档</button>
-      </div>
+      </div> -->
 
-      <div style=" position: relative;width:100%;height:50px;">
+      <!-- <div style=" position: relative;width:100%;height:50px;">
         <p style="margin-left:5%">上传word文档:</p>
         <div class="image-view1" style="margin-top:10px;">
           <input type="file" ref="file" class="inp1" />
         </div>
         <button @click="jump33()" style="position:absolute;right:8%">提交文档</button>
-      </div>
+      </div> -->
 
       <div style="position: relative;width:100%;height：50px;clear:both;">
          <div style="margin: 16px;margin-top:30px">
@@ -268,7 +268,75 @@ export default {
   //监控data中的数据变化
   watch: {},
   //方法集合
+  //生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+    this.myVal = sessionStorage.getItem("myVal");
+    console.log(this.myVal);
+    this.myVal01 = sessionStorage.getItem("myVal01");
+    console.log(this.myVal01);
+    this.myVal02 = sessionStorage.getItem("myVal02");
+    console.log(this.myVal02);
+    this.myVal03 = sessionStorage.getItem("myVal03");
+    console.log(this.myVal03);
+    this.myVal04 = sessionStorage.getItem("myVal04");
+    console.log(this.myVal04);
+    this.myVal05 = sessionStorage.getItem("myVal05");
+    console.log(this.myVal05);
+    this.myVal06 = sessionStorage.getItem("myVal06");
+    console.log(this.myVal06);
+    this.myVal07 = sessionStorage.getItem("myVal07");
+    console.log(this.myVal07);
+    this.myVal08 = sessionStorage.getItem("myVal08");
+    console.log(this.myVal08);
+    this.myVal09 = sessionStorage.getItem("myVal09");
+    console.log(this.myVal09);
+    this.myVal10 = sessionStorage.getItem("myVal10");
+    console.log(this.myVal10);
+    this.aid = this.$route.query.info;
+    console.log(this.aid);
+    let fromdata1 = new FormData();
+    fromdata1.append("vname", sessionStorage.getItem("vname"));
 
+    this.$axios
+      .post(
+        "http://152.136.232.95:8089/vaccines/findVaccinesByVname",
+        fromdata1
+      )
+      .then(res => {
+        console.log(res);
+        this.vacccc = res.data;
+      });
+    // sessionStorage.setItem("vid",this.Aemail)
+
+    this.$axios
+      .post("http://152.136.232.95:8089/healthinquiry/findHealthInquiry")
+      .then(res => {
+        console.log(res);
+        this.i.id = res.data[0].id;
+        this.i.id1 = res.data[1].id;
+        this.i.id2 = res.data[2].id;
+        this.i.id3 = res.data[3].id;
+        this.i.id4 = res.data[4].id;
+        this.i.id5 = res.data[5].id;
+        this.i.id6 = res.data[6].id;
+        this.i.id7 = res.data[7].id;
+        this.i.id8 = res.data[8].id;
+        this.i.id9 = res.data[9].id;
+        this.i.id10 = res.data[10].id;
+        // console.log(this.id)
+        this.q.question0 = res.data[0];
+        this.q.question1 = res.data[1];
+        this.q.question2 = res.data[2];
+        this.q.question3 = res.data[3];
+        this.q.question4 = res.data[4];
+        this.q.question5 = res.data[5];
+        this.q.question6 = res.data[6];
+        this.q.question7 = res.data[7];
+        this.q.question8 = res.data[8];
+        this.q.question9 = res.data[9];
+        this.q.question10 = res.data[10];
+      });
+  },
   methods: {
        onClickLeft() {
       this.$router.go(-1);
@@ -353,7 +421,92 @@ export default {
         
     },
     jump() {
-        let obj = {
+            html2canvas(document.getElementById("print"),{
+                dpi: 172,//导出pdf清晰度
+                allowTaint: true,
+                scale: 2, // 提升画面质量，但是会增加文件大小
+                onrendered: function (canvas) {
+                    /**jspdf将html转为pdf一页显示不截断，整体思路：
+                     * 1. 获取DOM 
+                     * 2. 将DOM转换为canvas
+                     * 3. 获取canvas的宽度、高度（稍微大一点）
+                     * 4. 将pdf的宽高设置为canvas的宽高
+                     * 5. 将canvas转为图片
+                     * 6. 实例化jspdf，将内容图片放在pdf中（因为内容宽高和pdf宽高一样，就只需要一页，也防止内容截断问题）
+                     */
+
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+                    // 将canvas转为base64图片
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0)
+            
+                    // 设置pdf的尺寸，pdf要使用pt单位 已知 1pt/1px = 0.75   pt = (px/scale)* 0.75
+                    // 2为上面的scale 缩放了2倍
+                    var pdfX = (contentWidth + 10) / 2 * 0.75
+                    var pdfY = (contentHeight + 500) / 2 * 0.75 // 500为底部留白
+            
+                    // 设置内容图片的尺寸，img是pt单位 
+                    var imgX = pdfX;
+                    var imgY = (contentHeight / 2 * 0.75); //内容图片这里不需要留白的距离
+            
+                    // 初始化jspdf 第一个参数方向：默认''时为纵向，第二个参数设置pdf内容图片使用的长度单位为pt，第三个参数为PDF的大小，单位是pt
+                    var pdf = new jsPDF('', 'pt', [pdfX, pdfY]);
+                    // 将内容图片添加到pdf中，因为内容宽高和pdf宽高一样，就只需要一页，位置就是 0,0
+                    pdf.addImage(pageData, 'jpeg', 0, 0, imgX, imgY);
+                    /*方法二 缺点 有隔断*/
+                    //一页pdf显示html页面生成的canvas高度;
+                    /*var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //pdf页面偏移
+                    var position = 0;
+                    //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }*/
+                    pdf.save(导出的pdf名字+'.pdf');
+                   
+
+                   //上传到后台
+
+                   var filename = pdf名字+'.pdf' ;
+                    var pdffile = pdf.output("datauristring")
+                    var blob = dataURLtoFile(pdffile,filename);
+                    /*var myfile = blobToFile(blob, filename);*/
+                    var dataFile = new FormData();
+                    dataFile.append('file', blob);
+                    dataFile.append('id', getId);
+
+                    //上传 这是作者自己封装的ajax
+                    apiUpload("http://152.136.232.95:8090/file/upload",dataFile,function(res){
+                       console.log(res)
+                       console.log(222222222222)
+                    })
+                },
+                //背景设为白色（默认为黑色）
+                background: "#fff" , //!!!注：我加这个属性并没有生效，后来改的canvas js 底下会有截图
+                allowTaint: true
+            })
+            .then(()=>{
+                let obj = {
           aid: sessionStorage.getItem("aid"),
           answer: this.m.myVal,
           id: this.i.id,
@@ -484,8 +637,8 @@ export default {
           .post("http://152.136.232.95:8089/health/addHealthRecord", obj10)
           .then(res => {
             console.log(res);
-          });
-
+          })
+          
           let fromdata2 = new FormData();
           fromdata2.append("aid", sessionStorage.getItem("aid"));
           fromdata2.append(
@@ -523,167 +676,36 @@ export default {
                 alert("医生确认成功，请去上传您的电子签名...");
                 this.$router.push("Health");
               }
-            }).then(()=>{
-              printOut();
             })
         } else {
           alert("请先去上传文档");
         } 
-            });
-    },
-    printOut(name) {
- html2canvas(document.getElementById('export_content'),{ //此处的id为要打印的部分
-                onrendered:function(canvas){
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //pdf页面偏移
-                    var position = 0;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28/contentWidth * contentHeight;
-
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
-                    } else {
-                        while(leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if(leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-//                  document.getElementById('Alive1').value=
-                   //var aa= pdf.save('导出为PDF测试.pdf'); 
-                   //document.getElementById('Alive1').value=aa
-                    console.log("pageData:"+pageData)
-                    
-   var formData = new FormData();
-			  //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数  
-
-    //convertBase64UrlToBlob函数是将base64编码转换为Blob  
-    formData.append("uploadFile",convertBase64UrlToBlob(pageData));  //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同  
-
-						
-			            $.ajax({
-			            	type: "post",
-				data: formData,
-				processData: false,//数据处理
-                contentType: false,
-				url: "http://152.136.232.95:8090/file/upload",
-				async: false,
-			            	ssuccess:function(res){
-			            		console.log(res)
-			            	}
-			            });
-				
-                    
-                    
-                },
-               　// 导出的pdf默认背景颜色为黑色，所以要设置颜色为白
-	  			        background: '#FFF'
-            });
-  },
-   convertBase64UrlToBlob(urlData){  
-
-    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
-
-    //处理异常,将ascii码小于0的转换为大于0  
-    var ab = new ArrayBuffer(bytes.length);  
-    var ia = new Uint8Array(ab);  
-    for (var i = 0; i < bytes.length; i++) {  
-        ia[i] = bytes.charCodeAt(i);  
-    }  
-
-    return new Blob( [ab] , {type : 'image/png'});  
-}  
-
+            })
+            })
+      
+    }, 
+    
+    dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(',');
+            var mime = arr[0].match(/:(.*?);/)[1];
+            var bstr = atob(arr[1]);
+            var n = bstr.length; 
+            var u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            //转换成file对象
+            return new File([u8arr], filename, {type:mime});
+            //转换成成blob对象
+            //return new Blob([u8arr],{type:mime});
+        }
+ 
   },
 
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-    this.myVal = sessionStorage.getItem("myVal");
-    console.log(this.myVal);
-    this.myVal01 = sessionStorage.getItem("myVal01");
-    console.log(this.myVal01);
-    this.myVal02 = sessionStorage.getItem("myVal02");
-    console.log(this.myVal02);
-    this.myVal03 = sessionStorage.getItem("myVal03");
-    console.log(this.myVal03);
-    this.myVal04 = sessionStorage.getItem("myVal04");
-    console.log(this.myVal04);
-    this.myVal05 = sessionStorage.getItem("myVal05");
-    console.log(this.myVal05);
-    this.myVal06 = sessionStorage.getItem("myVal06");
-    console.log(this.myVal06);
-    this.myVal07 = sessionStorage.getItem("myVal07");
-    console.log(this.myVal07);
-    this.myVal08 = sessionStorage.getItem("myVal08");
-    console.log(this.myVal08);
-    this.myVal09 = sessionStorage.getItem("myVal09");
-    console.log(this.myVal09);
-    this.myVal10 = sessionStorage.getItem("myVal10");
-    console.log(this.myVal10);
-    this.aid = this.$route.query.info;
-    console.log(this.aid);
-    let fromdata1 = new FormData();
-    fromdata1.append("vname", sessionStorage.getItem("vname"));
 
-    this.$axios
-      .post(
-        "http://152.136.232.95:8089/vaccines/findVaccinesByVname",
-        fromdata1
-      )
-      .then(res => {
-        console.log(res);
-        this.vacccc = res.data;
-      });
-    // sessionStorage.setItem("vid",this.Aemail)
-
-    this.$axios
-      .post("http://152.136.232.95:8089/healthinquiry/findHealthInquiry")
-      .then(res => {
-        console.log(res);
-        this.i.id = res.data[0].id;
-        this.i.id1 = res.data[1].id;
-        this.i.id2 = res.data[2].id;
-        this.i.id3 = res.data[3].id;
-        this.i.id4 = res.data[4].id;
-        this.i.id5 = res.data[5].id;
-        this.i.id6 = res.data[6].id;
-        this.i.id7 = res.data[7].id;
-        this.i.id8 = res.data[8].id;
-        this.i.id9 = res.data[9].id;
-        this.i.id10 = res.data[10].id;
-        // console.log(this.id)
-        this.q.question0 = res.data[0];
-        this.q.question1 = res.data[1];
-        this.q.question2 = res.data[2];
-        this.q.question3 = res.data[3];
-        this.q.question4 = res.data[4];
-        this.q.question5 = res.data[5];
-        this.q.question6 = res.data[6];
-        this.q.question7 = res.data[7];
-        this.q.question8 = res.data[8];
-        this.q.question9 = res.data[9];
-        this.q.question10 = res.data[10];
-      });
-  }
-};
+}
 </script>
+
 <style  scoped>
 .title {
   font-size: 20px;
