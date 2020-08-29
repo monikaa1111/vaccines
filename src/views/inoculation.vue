@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <div class="boxx" id="print">
+  <div class="boxx" id="export_content">
     <van-nav-bar
       title="受种者健康状况询问表 "
       left-text
@@ -191,7 +191,6 @@
     3.不宜接种<input type="radio" name="" id="">。</p>-->
   </div>
 </template>
-
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
@@ -421,92 +420,73 @@ export default {
         
     },
     jump() {
-            html2canvas(document.getElementById("print"),{
-                dpi: 172,//导出pdf清晰度
-                allowTaint: true,
-                scale: 2, // 提升画面质量，但是会增加文件大小
-                onrendered: function (canvas) {
-                    /**jspdf将html转为pdf一页显示不截断，整体思路：
-                     * 1. 获取DOM 
-                     * 2. 将DOM转换为canvas
-                     * 3. 获取canvas的宽度、高度（稍微大一点）
-                     * 4. 将pdf的宽高设置为canvas的宽高
-                     * 5. 将canvas转为图片
-                     * 6. 实例化jspdf，将内容图片放在pdf中（因为内容宽高和pdf宽高一样，就只需要一页，也防止内容截断问题）
-                     */
+      			html2canvas(document.getElementById('export_content'), { //此处的id为要打印的部分  
+				onrendered: function(canvas) {
+					var contentWidth = canvas.width;
+					var contentHeight = canvas.height;
 
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    // 将canvas转为base64图片
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0)
-            
-                    // 设置pdf的尺寸，pdf要使用pt单位 已知 1pt/1px = 0.75   pt = (px/scale)* 0.75
-                    // 2为上面的scale 缩放了2倍
-                    var pdfX = (contentWidth + 10) / 2 * 0.75
-                    var pdfY = (contentHeight + 500) / 2 * 0.75 // 500为底部留白
-            
-                    // 设置内容图片的尺寸，img是pt单位 
-                    var imgX = pdfX;
-                    var imgY = (contentHeight / 2 * 0.75); //内容图片这里不需要留白的距离
-            
-                    // 初始化jspdf 第一个参数方向：默认''时为纵向，第二个参数设置pdf内容图片使用的长度单位为pt，第三个参数为PDF的大小，单位是pt
-                    var pdf = new jsPDF('', 'pt', [pdfX, pdfY]);
-                    // 将内容图片添加到pdf中，因为内容宽高和pdf宽高一样，就只需要一页，位置就是 0,0
-                    pdf.addImage(pageData, 'jpeg', 0, 0, imgX, imgY);
-                    /*方法二 缺点 有隔断*/
-                    //一页pdf显示html页面生成的canvas高度;
-                    /*var pageHeight = contentWidth / 592.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //pdf页面偏移
-                    var position = 0;
-                    //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
-                    var imgWidth = 595.28;
-                    var imgHeight = 592.28 / contentWidth * contentHeight;
+					//一页pdf显示html页面生成的canvas高度;
+					var pageHeight = contentWidth / 592.28 * 841.89;
+					//未生成pdf的html页面高度
+					var leftHeight = contentHeight;
+					//pdf页面偏移
+					var position = 0;
+					//a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+					var imgWidth = 595.28;
+					var imgHeight = 592.28 / contentWidth * contentHeight;
 
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-                    var pdf = new jsPDF('', 'pt', 'a4');
+					var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
-                    } else {
-                        while (leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if (leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }*/
-                    pdf.save(导出的pdf名字+'.pdf');
-                   
+					var pdf = new jsPDF('', 'pt', 'a4');
 
-                   //上传到后台
+					//有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+					//当内容未超过pdf一页显示的范围，无需分页
+					if(leftHeight < pageHeight) {
+						pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+					} else {
+						while(leftHeight > 0) {
+							pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
+							leftHeight -= pageHeight;
+							position -= 841.89;
+							//避免添加空白页
+							if(leftHeight > 0) {
+								pdf.addPage();
+							}
+            }
+            // pdf.save('导出为PDF测试.pdf'); 
+					}
+					//                  document.getElementById('Alive1').value=
+					
+					//document.getElementById('Alive1').value=aa
+					//  console.log("pageData:"+pageData)
 
-                   var filename = pdf名字+'.pdf' ;
-                    var pdffile = pdf.output("datauristring")
-                    var blob = dataURLtoFile(pdffile,filename);
-                    /*var myfile = blobToFile(blob, filename);*/
-                    var dataFile = new FormData();
-                    dataFile.append('file', blob);
-                    dataFile.append('id', getId);
+					var formData = new FormData();
+					//这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数  
 
-                    //上传 这是作者自己封装的ajax
-                    apiUpload("http://152.136.232.95:8090/file/upload",dataFile,function(res){
-                       console.log(res)
-                       console.log(222222222222)
-                    })
-                },
-                //背景设为白色（默认为黑色）
-                background: "#fff" , //!!!注：我加这个属性并没有生效，后来改的canvas js 底下会有截图
-                allowTaint: true
-            })
-            .then(()=>{
-                let obj = {
+					//convertBase64UrlToBlob函数是将base64编码转换为Blob  
+					formData.append("uploadFile", convertBase64UrlToBlob(pageData)); //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同  
+
+					$.ajax({
+						type: "post",
+						data: formData,
+						processData: false, //数据处理
+						contentType: false,
+						url: "http://152.136.232.95:8090/file/upload",
+						async: false,
+						success: function(res) {
+                   console.log("22222222222222")
+							console.log(res)
+							var telephone = sessionStorage.getItem('testKey')
+
+						}
+					})
+
+				},
+				　 // 导出的pdf默认背景颜色为黑色，所以要设置颜色为白
+				background: '#FFF'
+			}).then(()=>{
+        
+        let obj = {
           aid: sessionStorage.getItem("aid"),
           answer: this.m.myVal,
           id: this.i.id,
@@ -680,28 +660,30 @@ export default {
         } else {
           alert("请先去上传文档");
         } 
+      })
             })
-            })
-      
+            // .then(()=>{
+            //   console.log(22222222222222)
+            //  this.getmes();
+            // })  
     }, 
-    
-    dataURLtoFile(dataurl, filename) {
-            var arr = dataurl.split(',');
-            var mime = arr[0].match(/:(.*?);/)[1];
-            var bstr = atob(arr[1]);
-            var n = bstr.length; 
-            var u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            //转换成file对象
-            return new File([u8arr], filename, {type:mime});
-            //转换成成blob对象
-            //return new Blob([u8arr],{type:mime});
-        }
- 
-  },
 
+convertBase64UrlToBlob(urlData){  
+
+    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
+
+    //处理异常,将ascii码小于0的转换为大于0  
+    var ab = new ArrayBuffer(bytes.length);  
+    var ia = new Uint8Array(ab);  
+    for (var i = 0; i < bytes.length; i++) {  
+        ia[i] = bytes.charCodeAt(i);  
+    }  
+
+    return new Blob( [ab] , {type : 'image/png'});  
+}
+     
+
+  },
 
 }
 </script>

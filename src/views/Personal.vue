@@ -15,6 +15,7 @@
      <van-cell title="医学行为记录" @click="Medicalbehavior()" />
       <van-cell title="管理家庭成员"  @click="addfamily()"/>
       <van-cell title="修改个人信息" @click="modify()" />
+       <van-cell title="我的二维码"  @click="ewm()"/>
       <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
 </div>
@@ -52,6 +53,9 @@ methods: {
     },
     Medicalbehavior(){
         this.$router.push('Medicalbehavior?numberid='+this.message.numberid)
+    },
+    ewm(){
+        this.$router.push('ewm?numberid='+this.message.numberid)
     }
 },
 created() {
