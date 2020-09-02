@@ -23,7 +23,7 @@
       <p class="date">{{item.time}}</p>
       <p class="date1">价格：20</p>
       </div>
-       <van-button plain type="info" class="button1" @click="del(index)">删除</van-button>
+       <!-- <van-button plain type="info" class="button1" @click="del(index)">删除</van-button> -->
       <!-- <input type="button" value="删除" class="button1" @click="del(index)" /> -->
          <!-- <input type="button" value="修改信息" class="button2" @click="modi(index)" /> -->
       <!-- <input type="button" value="修改" class="button2"  @click="change()" />
@@ -48,6 +48,7 @@ export default {
     return {
         show:false,
         vacc:[],
+        record:''
     };
   },
   //监听属性 类似于data概念
@@ -56,12 +57,19 @@ export default {
   watch: {},
     //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-       let fromdata=new FormData();
-      fromdata.append("telephone",sessionStorage.getItem("telephone"))
-     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecordByTel",fromdata).then(res=>{
+    this.numberid=this.$route.query.numberid;
+    console.log(this.numberid);
+      let fromdata=new FormData();
+      fromdata.append("numberid",this.numberid)
+     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecord",fromdata).then(res=>{
         console.log(res)
-        this.vacc=res.data
-
+        if (res.data.letterthird!="null" || res.data.letterthird!="" || res.data.letterthird!=null ) {
+          this.vacc=res.data
+          console.log(this.vacc)
+        } else {
+          
+        }
+        
 
     })
   },
@@ -83,15 +91,15 @@ export default {
       //  let aid={
       //   "aid": (this.vacc[index].aid)
       //   }
-      this.$axios.post("http://152.136.232.95:8089/appointRecord/deleteAppointRecord",fromdata).then(res => {
-        console.log(res);
-        if (res.data==1) {
-          alert("删除成功")
-          this.$router.go(0)
-        } else {
-          alert("删除失败")
-        }
-      });
+      // this.$axios.post("http://152.136.232.95:8089/appointRecord/deleteAppointRecord",fromdata).then(res => {
+      //   console.log(res);
+      //   if (res.data==1) {
+      //     alert("删除成功")
+      //     this.$router.go(0)
+      //   } else {
+      //     alert("删除失败")
+      //   }
+      // });
     },
     //  modi(index) {
     //   let fromdata=new FormData();

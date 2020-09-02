@@ -1,12 +1,7 @@
 <!--  -->
 <template>
   <div class="boxx" id="export_content">
-    <van-nav-bar
-      title="受种者健康状况询问表 "
-      left-text
-      left-arrow
-      @click-left="onClickLeft()"
-    />
+    <van-nav-bar title="受种者健康状况询问表 " left-text left-arrow @click-left="onClickLeft()" />
     <!-- <p class="title">受种者健康状况询问表</p> -->
     <!-- <div style="width:100%">
       <p style="margin-left:2%;">电子告知书详情：</p>
@@ -38,9 +33,10 @@
     </div>-->
     <div>
       <!-- <p style="clear:both;margin-left:2%;">接种者健康询问：</p> -->
-      <p
-        class="font"
-      >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下问题可帮助确定受种者今天是否可以接种本疫苗，请认真阅读。如果对任何问题的回答为“是”，并不表示受种者不应接种本疫苗，而只是表示还需要询问其他问题。如果对有些问题不清楚，请要求医护人员说明。( 请在方框内打“V"，如选"是”请在备注中注明具体情况。<font style="color:red">注:此表只可填一次，不可空白不填，如若填写有误，本接种点概不负责。</font>)</p>
+      <p class="font">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下问题可帮助确定受种者今天是否可以接种本疫苗，请认真阅读。如果对任何问题的回答为“是”，并不表示受种者不应接种本疫苗，而只是表示还需要询问其他问题。如果对有些问题不清楚，请要求医护人员说明。( 请在方框内打“V"，如选"是”请在备注中注明具体情况。
+        <font style="color:red">注:此表只可填一次，不可空白不填，如若填写有误，本接种点概不负责。</font>)
+      </p>
       <table border="1" cellspacing="0" cellpadding="0" width="100%" align="center">
         <tr>
           <th width="56%">健康状况</th>
@@ -165,7 +161,7 @@
           style="margin-left:5%;color:blue; position:absolute;
       right:10%;margin-top:10px"
         >导出word文档</button>
-      </div> -->
+      </div>-->
 
       <!-- <div style=" position: relative;width:100%;height:50px;">
         <p style="margin-left:5%">上传word文档:</p>
@@ -173,11 +169,11 @@
           <input type="file" ref="file" class="inp1" />
         </div>
         <button @click="jump33()" style="position:absolute;right:8%">提交文档</button>
-      </div> -->
+      </div>-->
 
       <div style="position: relative;width:100%;height：50px;clear:both;">
-         <div style="margin: 16px;margin-top:30px">
-          <van-button round block type="info" @click="jump()">确认接种</van-button>
+        <div style="margin: 16px;margin-top:30px">
+          <van-button round block type="info" @click="printOut()">确认接种</van-button>
         </div>
         <!-- <button id="outTable" class="yes11" @click="jump()" style="margin-bottom:20px;">确认接种</button> -->
       </div>
@@ -194,19 +190,19 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import html2canvas from 'html2canvas';
-import JsPDF from 'jspdf'
+import html2Canvas from "html2canvas";
+import JsPDF from "jspdf";
 import saveAs from "file-saver";
 import "../../static/js/jquery.wordexport";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {
-    html2canvas
+    html2Canvas
   },
   data() {
     //这里存放数据
     return {
-       htmlTitle: '健康查询表',
+      htmlTitle: "健康查询表",
       imgBase64: [],
       vaccc: "",
       vacccc: "",
@@ -259,7 +255,8 @@ export default {
         id8: "",
         id9: "",
         id10: ""
-      }
+      },
+      letterfirst:"",
     };
   },
   //监听属性 类似于data概念
@@ -335,9 +332,30 @@ export default {
         this.q.question9 = res.data[9];
         this.q.question10 = res.data[10];
       });
+     
+            let fromdata3 = new FormData();
+            fromdata3.append("aid", this.aid);
+
+            this.$axios
+              .post(
+                "http://152.136.232.95:8089/appointRecord/findAppointRecordByaid",
+                fromdata3
+              )
+              .then(res => {
+                console.log(res);
+                this.vaccc = res.data;
+                sessionStorage.setItem("aid", this.vaccc.aid);
+                console.log(this.vaccc.aid);
+                if (
+                  res.data.doctorconfirm == 1 
+                ) {
+                  this.$router.push("Health");
+                } else {
+                }
+              });
   },
   methods: {
-       onClickLeft() {
+    onClickLeft() {
       this.$router.go(-1);
     },
     downloadHT() {
@@ -404,288 +422,269 @@ export default {
       this.myHtmlCode10 = e.target.innerHTML;
       console.log("Text: %o", this.myHtmlCode10);
     },
-    jump33(){
-       var that = this;
-        let fromdata = new FormData();
-        fromdata.append("uploadFile", that.$refs.file.files[0]);
-        console.log(that.$refs.file.files);
-        this.$axios
-          .post("http://152.136.232.95:8089/file/upload", fromdata)
-          .then(response => {
-            console.log(response);
-            console.log(response.data);
-            sessionStorage.setItem("letterfirst", response.data);
-            // window.location.href="appointment"
-          });
-        
+    jump33() {
+      var that = this;
+      let fromdata = new FormData();
+      fromdata.append("uploadFile", that.$refs.file.files[0]);
+      console.log(that.$refs.file.files);
+      this.$axios
+        .post("http://152.136.232.95:8089/file/upload", fromdata)
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
+          sessionStorage.setItem("letterfirst", response.data);
+          // window.location.href="appointment"
+        });
     },
-    jump() {
-      			html2canvas(document.getElementById('export_content'), { //此处的id为要打印的部分  
-				onrendered: function(canvas) {
-					var contentWidth = canvas.width;
-					var contentHeight = canvas.height;
 
-					//一页pdf显示html页面生成的canvas高度;
-					var pageHeight = contentWidth / 592.28 * 841.89;
-					//未生成pdf的html页面高度
-					var leftHeight = contentHeight;
-					//pdf页面偏移
-					var position = 0;
-					//a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-					var imgWidth = 595.28;
-					var imgHeight = 592.28 / contentWidth * contentHeight;
+    convertBase64UrlToBlob(urlData) {
+      var bytes = window.atob(urlData.split(",")[1]); //去掉url的头，并转换为byte
 
-					var pageData = canvas.toDataURL('image/jpeg', 1.0);
+      //处理异常,将ascii码小于0的转换为大于0
+      var ab = new ArrayBuffer(bytes.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+      }
 
-					var pdf = new jsPDF('', 'pt', 'a4');
+      return new Blob([ab], { type: "image/png" });
+    },
+    printOut(name) {
+      let obj = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal,
+        id: this.i.id,
+        name: this.q.question0.name,
+        remarks: this.myHtmlCode
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj)
+        .then(res => {
+          console.log(res);
+        });
+      let obj1 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal01,
+        id: this.i.id1,
+        name: this.q.question1.name,
+        remarks: this.myHtmlCode1
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj1)
+        .then(res => {
+          console.log(res);
+        });
+      let obj2 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal02,
+        id: this.i.id2,
+        name: this.q.question2.name,
+        remarks: this.myHtmlCode2
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj2)
+        .then(res => {
+          console.log(res);
+        });
+      let obj3 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal03,
+        id: this.i.id3,
+        name: this.q.question3.name,
+        remarks: this.myHtmlCode3
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj3)
+        .then(res => {
+          console.log(res);
+        });
+      let obj4 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal04,
+        id: this.i.id4,
+        name: this.q.question4.name,
+        remarks: this.myHtmlCode4
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj4)
+        .then(res => {
+          console.log(res);
+        });
+      let obj5 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal05,
+        id: this.i.id5,
+        name: this.q.question5.name,
+        remarks: this.myHtmlCode5
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj5)
+        .then(res => {
+          console.log(res);
+        });
+      let obj6 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal06,
+        id: this.i.id6,
+        name: this.q.question6.name,
+        remarks: this.myHtmlCode6
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj6)
+        .then(res => {
+          console.log(res);
+        });
+      let obj7 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal07,
+        id: this.i.id7,
+        name: this.q.question7.name,
+        remarks: this.myHtmlCode7
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj7)
+        .then(res => {
+          console.log(res);
+        });
+      let obj8 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal08,
+        id: this.i.id8,
+        name: this.q.question8.name,
+        remarks: this.myHtmlCode8
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj8)
+        .then(res => {
+          console.log(res);
+        });
+      let obj9 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal09,
+        id: this.i.id9,
+        name: this.q.question9.name,
+        remarks: this.myHtmlCode9
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj9)
+        .then(res => {
+          console.log(res);
+        });
+      let obj10 = {
+        aid: sessionStorage.getItem("aid"),
+        answer: this.m.myVal10,
+        id: this.i.id10,
+        name: this.q.question10.name,
+        remarks: this.myHtmlCode10
+      };
+      this.$axios
+        .post("http://152.136.232.95:8089/health/addHealthRecord", obj10)
+        .then(res => {
+          console.log(res);
+        });
+      let shareContent = document.body, //需要截图的包裹的（原生的）DOM 对象
+        width = shareContent.clientWidth, //获取dom 宽度
+        height = shareContent.clientHeight, //获取dom 高度
+        canvas = document.createElement("canvas"), //创建一个canvas节点
+        scale = 1; //定义任意放大倍数 支持小数
+      canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      canvas.height = height * scale; //定义canvas高度 *缩放
+      canvas.style.width = shareContent.clientWidth * scale + "px";
+      canvas.style.height = shareContent.clientHeight * scale + "px";
+      canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      let opts = {
+        scale: scale, // 添加的scale 参数
+        canvas: canvas, //自定义 canvas
+        logging: false, //日志开关，便于查看html2canvas的内部执行流程
+        width: width, //dom 原始宽度
+        height: height,
+        useCORS: true // 【重要】开启跨域配置
+      };
 
-					//有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-					//当内容未超过pdf一页显示的范围，无需分页
-					if(leftHeight < pageHeight) {
-						pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
-					} else {
-						while(leftHeight > 0) {
-							pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
-							leftHeight -= pageHeight;
-							position -= 841.89;
-							//避免添加空白页
-							if(leftHeight > 0) {
-								pdf.addPage();
-							}
-            }
-            // pdf.save('导出为PDF测试.pdf'); 
-					}
-					//                  document.getElementById('Alive1').value=
-					
-					//document.getElementById('Alive1').value=aa
-					//  console.log("pageData:"+pageData)
-
-					var formData = new FormData();
-					//这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数  
-
-					//convertBase64UrlToBlob函数是将base64编码转换为Blob  
-					formData.append("uploadFile", convertBase64UrlToBlob(pageData)); //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同  
-
-					$.ajax({
-						type: "post",
-						data: formData,
-						processData: false, //数据处理
-						contentType: false,
-						url: "http://152.136.232.95:8090/file/upload",
-						async: false,
-						success: function(res) {
-                   console.log("22222222222222")
-							console.log(res)
-							var telephone = sessionStorage.getItem('testKey')
-
-						}
-					})
-
-				},
-				　 // 导出的pdf默认背景颜色为黑色，所以要设置颜色为白
-				background: '#FFF'
-			}).then(()=>{
-        
-        let obj = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal,
-          id: this.i.id,
-          name: this.q.question0.name,
-          remarks: this.myHtmlCode
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj)
-          .then(res => {
-            console.log(res);
-          });
-        let obj1 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal01,
-          id: this.i.id1,
-          name: this.q.question1.name,
-          remarks: this.myHtmlCode1
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj1)
-          .then(res => {
-            console.log(res);
-          });
-        let obj2 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal02,
-          id: this.i.id2,
-          name: this.q.question2.name,
-          remarks: this.myHtmlCode2
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj2)
-          .then(res => {
-            console.log(res);
-          });
-        let obj3 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal03,
-          id: this.i.id3,
-          name: this.q.question3.name,
-          remarks: this.myHtmlCode3
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj3)
-          .then(res => {
-            console.log(res);
-          });
-        let obj4 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal04,
-          id: this.i.id4,
-          name: this.q.question4.name,
-          remarks: this.myHtmlCode4
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj4)
-          .then(res => {
-            console.log(res);
-          });
-        let obj5 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal05,
-          id: this.i.id5,
-          name: this.q.question5.name,
-          remarks: this.myHtmlCode5
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj5)
-          .then(res => {
-            console.log(res);
-          });
-        let obj6 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal06,
-          id: this.i.id6,
-          name: this.q.question6.name,
-          remarks: this.myHtmlCode6
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj6)
-          .then(res => {
-            console.log(res);
-          });
-        let obj7 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal07,
-          id: this.i.id7,
-          name: this.q.question7.name,
-          remarks: this.myHtmlCode7
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj7)
-          .then(res => {
-            console.log(res);
-          });
-        let obj8 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal08,
-          id: this.i.id8,
-          name: this.q.question8.name,
-          remarks: this.myHtmlCode8
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj8)
-          .then(res => {
-            console.log(res);
-          });
-        let obj9 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal09,
-          id: this.i.id9,
-          name: this.q.question9.name,
-          remarks: this.myHtmlCode9
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj9)
-          .then(res => {
-            console.log(res);
-          });
-        let obj10 = {
-          aid: sessionStorage.getItem("aid"),
-          answer: this.m.myVal10,
-          id: this.i.id10,
-          name: this.q.question10.name,
-          remarks: this.myHtmlCode10
-        };
-        this.$axios
-          .post("http://152.136.232.95:8089/health/addHealthRecord", obj10)
-          .then(res => {
-            console.log(res);
-          })
-          
-          let fromdata2 = new FormData();
-          fromdata2.append("aid", sessionStorage.getItem("aid"));
-          fromdata2.append(
-            "letterfirst",
-            sessionStorage.getItem("letterfirst")
-          );
-          this.$axios
-            .post(
-              "http://152.136.232.95:8089/appointRecord/updateLetterFirst",
-              fromdata2
-            )
-            .then(res => {
-              console.log(res);
-              if (res.data==1) {
-                
-          let fromdata3 = new FormData();
-          fromdata3.append("aid", this.aid);
-
-          this.$axios
-            .post(
-              "http://152.136.232.95:8089/appointRecord/findAppointRecordByaid",
-              fromdata3
-            )
-            .then(res => {
-              console.log(res);
-              this.vaccc = res.data;
-              sessionStorage.setItem("aid", this.vaccc.aid);
-              console.log(this.vaccc.aid);
-              if (
-                this.vaccc.doctorautograph == "" ||
-                this.vaccc.doctorautograph == null
-              ) {
-                alert("上传成功，请等待医生的确认...");
-              } else {
-                alert("医生确认成功，请去上传您的电子签名...");
-                this.$router.push("Health");
-              }
-            })
+      html2Canvas(shareContent, opts).then(() => {
+        var contentWidth = canvas.width;
+        var contentHeight = canvas.height;
+        //一页pdf显示html页面生成的canvas高度;
+        var pageHeight = (contentWidth / 592.28) * 841.89;
+        //未生成pdf的html页面高度
+        var leftHeight = contentHeight;
+        //页面偏移
+        var position = 0;
+        //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+        var imgWidth = 595.28;
+        var imgHeight = (592.28 / contentWidth) * contentHeight;
+        var pageData = canvas.toDataURL("image/jpeg", 1.0);
+        var PDF = new JsPDF("", "pt", "a4");
+        if (leftHeight < pageHeight) {
+          PDF.addImage(pageData, "JPEG", 0, 0, imgWidth, imgHeight);
         } else {
-          alert("请先去上传文档");
-        } 
-      })
-            })
-            // .then(()=>{
-            //   console.log(22222222222222)
-            //  this.getmes();
-            // })  
-    }, 
+          while (leftHeight > 0) {
+            PDF.addImage(pageData, "JPEG", 0, position, imgWidth, imgHeight);
+            leftHeight -= pageHeight;
+            position -= 841.89;
+            if (leftHeight > 0) {
+              PDF.addPage();
+            }
+          }
+        }
+        //  PDF.save(name + ".pdf"); // 这里是导出的文件名
+        var formData = new FormData();
+        //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数
 
-convertBase64UrlToBlob(urlData){  
-
-    var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
-
-    //处理异常,将ascii码小于0的转换为大于0  
-    var ab = new ArrayBuffer(bytes.length);  
-    var ia = new Uint8Array(ab);  
-    for (var i = 0; i < bytes.length; i++) {  
-        ia[i] = bytes.charCodeAt(i);  
-    }  
-
-    return new Blob( [ab] , {type : 'image/png'});  
-}
+        //convertBase64UrlToBlob函数是将base64编码转换为Blob
+        formData.append("uploadFile", this.convertBase64UrlToBlob(pageData)); //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同
+        this.$axios
+          .post("http://152.136.232.95:8089/file/upload", formData)
+          .then(res => {
+            console.log(res);
+            this.letterfirst=res.data
+            console.log(this.letterfirst)
+          }).then(()=>{
+                       console.log(this.letterfirst)
+            let fromdata2 = new FormData();
+        fromdata2.append("aid", sessionStorage.getItem("aid"));
+        fromdata2.append("letterfirst",this.letterfirst);
      
+      this.$axios
+        .post(
+          "http://152.136.232.95:8089/appointRecord/updateLetterFirst",
+          fromdata2
+        )
+        .then(res => {
+          console.log(res);
+          if (res.data == 1) {
+            let fromdata3 = new FormData();
+            fromdata3.append("aid", this.aid);
 
-  },
+            this.$axios
+              .post(
+                "http://152.136.232.95:8089/appointRecord/findAppointRecordByaid",
+                fromdata3
+              )
+              .then(res => {
+                console.log(res);
+                this.vaccc = res.data;
+                sessionStorage.setItem("aid", this.vaccc.aid);
+                console.log(this.vaccc.aid);
+                if (
+                  res.data.doctorconfirm == 1 
+                ) {
+                   alert("医生确认成功，请去上传您的电子签名...");
+                  this.$router.push("Health");
+                } else {
+                   alert("上传成功，请等待医生的确认...");
+                }
+              });
+          } else {
+            alert("请先去上传文档");
+          }
+        });
+          })
 
-}
+      });
+    }
+  }
+};
 </script>
 
 <style  scoped>
@@ -780,6 +779,5 @@ convertBase64UrlToBlob(urlData){
   position: absolute;
   top: -11%;
   right: 2%;
-  
 }
 </style>

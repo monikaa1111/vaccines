@@ -19,7 +19,8 @@
      <van-cell title="家庭住址" :value="vacc.address" />
       <van-cell title="出生医院" :value="vacc.birthhospital" />
      <van-cell title="医学行为记录"  @click="jump()"/>
-      <van-cell title="修改信息" @click="modify()" />
+      <!-- <van-cell title="修改信息" @click="modify()" /> -->
+        <van-cell title="二维码"  @click="ewm()"/>
       <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
 </div>
@@ -53,6 +54,9 @@ onClickLeft() {
     },
     modify(){
         this.$router.push('modify2')
+    },
+      ewm(){
+        this.$router.push('ewm?numberid='+this.vacc.numberid)
     }
 },
 //生命周期 - 创建完成（可以访问当前this实例）

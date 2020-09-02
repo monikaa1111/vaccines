@@ -10,14 +10,14 @@
     />
     <div>
       <van-form @submit="onSubmit">
-        <van-field
+        <!-- <van-field
           v-model="ruleForm.name"
           name="用户名"
           label="用户名："
           placeholder="请输入您的用户名"
           :rules="[{ required: true, message: '请填写您的用户名' }]"
           style="margin-top:1em"
-        />
+        /> -->
         <van-field
           v-model="ruleForm.telephone"
           name="手机号"
@@ -49,7 +49,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">注册</van-button>
+          <van-button round block type="info" native-type="submit" @click="jump()">修改</van-button>
         </div>
       </van-form>
     </div>
@@ -69,7 +69,7 @@ export default {
       code3:'',   
        fileList: [],
       ruleForm: {
-        username: "",
+        // username: "",
         password: "",
         newpassword: "",
         telephone: "",

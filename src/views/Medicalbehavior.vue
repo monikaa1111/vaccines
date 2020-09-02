@@ -45,13 +45,23 @@ onClickLeft() {
           this.$router.push('yyrecord1?numberid='+this.numberid)
     },
     se(){
-        this.$router.push('Vaccinationrecords')
+        this.$router.push('Vaccinationrecords?numberid='+this.numberid)
     }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
 this.numberid=this.$route.query.numberid;
     console.log(this.numberid);
+    sessionStorage.setItem("jrnumberid",this.numberid)
+     let fromdata=new FormData();
+      fromdata.append("numberid",this.numberid)
+
+    this.$axios.post("http://152.136.232.95:8089/user/getUserInfoByNum",fromdata).then(res=>{
+        console.log(res)
+        this.vacc= res.data[0]
+        // console.log(vacc.vname)
+
+    })
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {

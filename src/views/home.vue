@@ -64,7 +64,7 @@ data() {
    methods: {
    
     jump(index){
-      this.$router.push('/details?info='+this.message[index].vid)
+      this.$router.push("/classification?vname="+this.message[index].vname)
     }
   },
   created(){

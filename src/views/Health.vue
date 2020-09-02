@@ -1,7 +1,7 @@
 <!--  -->
 <script src="<%= BASE_URL %>js/html-docx.js"></script>
 <template>
-  <div class="box" ref="imageDom">
+  <div id="box" ref="imageDom">
     <p class="title" >接种者详情表</p>
     <div style="width:100%">
       <p style="margin-left:2%;">电子告知书：</p>
@@ -63,26 +63,26 @@
     </div>
     
     <div style="width:100%;height：50px; clear:both ">
-      <p style="margin-left:5%">医生签名:(请保存医生的签名放进已下载的文档，上传到服务器)</p>
+      <p style="margin-left:5%">医生签名:</p>
     <canvas id="canvasOne" width="0" height="0"></canvas>
       <img :src='doctorautograph' class="docu" crossOrigin="Anonymous" @change="getImgBase1()" />
     </div>
-
+<!-- 
       <div style="position: relative;width:100%;height:27px;clear:both;">
          <button @click="downloadHT()" id="outTable"  style="margin-left:5%;color:blue; position:absolute;
       right:10%">导出word文档</button>
-    </div>
-
+    </div> -->
+<!-- 
      <div style=" position: relative;width:100%;height:80px;">
       <p style="margin-left:5%;">上传word文档:</p>
       <div class="image-view1" style="margin-top:10px;">
             <input type="file"   ref="file1" class="inp1">
     </div> 
     <button @click="jump()" style="position:absolute;right:8%">提交文档</button>
-    </div>
+    </div> -->
         <div style="position: relative;width:100%;height：50px;clear:both;">
            <div style="margin: 16px;margin-top:30px">
-          <van-button round block type="info" @click="change()">提交</van-button>
+          <van-button round block type="info" @click="printOut()">提交</van-button>
         </div>
     <!-- <button id="outTable" class="yes11"    @click="change()" >提交</button> -->
     </div>
@@ -157,8 +157,8 @@ export default {
       id8:'',
       id9:'',
       id10:'',
-     }
- 
+     },
+     letterthird:''
     };
   },
   //监听属性 类似于data概念
@@ -166,11 +166,61 @@ export default {
   //监控data中的数据变化
   watch: {},
   //方法集合
+  //生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+     this.myHtmlCode=sessionStorage.getItem("myHtmlCode")
+    console.log(this.myHtmlCode)
+    if ( this.myHtmlCode==''|| this.myHtmlCode==undefined) {
+      this.myHtmlCod==''
+    } else {
+       this.myHtmlCod==this.myHtmlCode
+    }
+     let fromdata1=new FormData();
+      fromdata1.append("vname",sessionStorage.getItem("vname"))
 
+    this.$axios.post("http://152.136.232.95:8089/vaccines/findVaccinesByVname",fromdata1).then(res=>{
+        console.log(res)
+        this.vacccc= res.data
+
+    })
+    // sessionStorage.setItem("vid",this.Aemail)
+     let fromdata=new FormData();
+      fromdata.append("aid",sessionStorage.getItem("aid"))
+
+    this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecordByaid",fromdata).then(res=>{
+        console.log(res)
+        this.vaccc= res.data
+        this.doctorautograph=res.data.doctorautograph
+          console.log(this.doctorautograph)
+        sessionStorage.setItem("aid",this.vaccc.aid)
+        console.log(this.vaccc.aid)
+
+    })
+    //
+         let fromdataa=new FormData();
+      fromdataa.append("aid",sessionStorage.getItem("aid"))
+
+    this.$axios.post("http://152.136.232.95:8089/health/findAllHealthByAid",fromdataa).then(res=>{
+        console.log(res)
+        this.aaa=res.data
+ })
+    this.$axios.post('http://152.136.232.95:8089/healthinquiry/findHealthInquiry').then(res=>{
+      console.log(res)
+      this.i.id=res.data[0].id
+      this.i.id1=res.data[1].id
+      this.i.id2=res.data[2].id
+      this.i.id3=res.data[3].id
+      this.i.id4=res.data[4].id
+      this.i.id5=res.data[5].id
+      this.i.id6=res.data[6].id
+      this.i.id7=res.data[7].id
+      this.i.id8=res.data[8].id
+      this.i.id9=res.data[9].id
+      this.i.id10=res.data[10].id
+      // console.log(this.id)
+    })
+  },
   methods: {
-    downloadHT(){
-      $(".box").wordExport("生成文档")
-    },
        getImgBase(){
                 var _this = this;
                 var event = event || window.event;
@@ -252,87 +302,97 @@ export default {
         sessionStorage.setItem("letterthird",res.data)
         })
     },
-change(){
-       var that=this
-      let fromdata=new FormData();
-      fromdata.append( "uploadFile",that.$refs.file.files[0])
-        console.log(that.$refs.file.files)
-      this.$axios.post("http://152.136.232.95:8089/file/upload",fromdata).then(response=>{
-        console.log(response)
-         console.log(response.data)
-         sessionStorage.setItem("sign",response.data)
-        // window.location.href="appointment"
+ convertBase64UrlToBlob(urlData) {
+      var bytes = window.atob(urlData.split(",")[1]); //去掉url的头，并转换为byte
 
-        })
-         
-         let fromdata2=new FormData();
-         fromdata2.append( "aid",sessionStorage.getItem("aid"))
-      fromdata2.append( "letterthird",sessionStorage.getItem("letterthird"))
-      this.$axios.post("http://152.136.232.95:8089/appointRecord/updateLetterThird",fromdata2).then(res=>{
-        console.log(res)
-        if (res.data==1) {
-          alert("提交成功")
+      //处理异常,将ascii码小于0的转换为大于0
+      var ab = new ArrayBuffer(bytes.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+      }
+
+      return new Blob([ab], { type: "image/png" });
+    },
+    printOut(name) {
+       let shareContent = document.body, //需要截图的包裹的（原生的）DOM 对象
+        width = shareContent.clientWidth, //获取dom 宽度
+        height = shareContent.clientHeight, //获取dom 高度
+        canvas = document.createElement("canvas"), //创建一个canvas节点
+        scale = 1; //定义任意放大倍数 支持小数
+      canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      canvas.height = height * scale; //定义canvas高度 *缩放
+      canvas.style.width = shareContent.clientWidth * scale + "px";
+      canvas.style.height = shareContent.clientHeight * scale + "px";
+      canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      let opts = {
+        scale: scale, // 添加的scale 参数
+        canvas: canvas, //自定义 canvas
+        logging: false, //日志开关，便于查看html2canvas的内部执行流程
+        width: width, //dom 原始宽度
+        height: height,
+        useCORS: true // 【重要】开启跨域配置
+      };
+      html2Canvas(shareContent, opts).then(() => {
+        var contentWidth = canvas.width;
+        var contentHeight = canvas.height;
+        //一页pdf显示html页面生成的canvas高度;
+        var pageHeight = (contentWidth / 592.28) * 841.89;
+        //未生成pdf的html页面高度
+        var leftHeight = contentHeight;
+        //页面偏移
+        var position = 0;
+        //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+        var imgWidth = 595.28;
+        var imgHeight = (592.28 / contentWidth) * contentHeight;
+        var pageData = canvas.toDataURL("image/jpeg", 1.0);
+        var PDF = new JsPDF("", "pt", "a4");
+        if (leftHeight < pageHeight) {
+          PDF.addImage(pageData, "JPEG", 0, 0, imgWidth, imgHeight);
         } else {
-          alert("提交失败")
+          while (leftHeight > 0) {
+            PDF.addImage(pageData, "JPEG", 0, position, imgWidth, imgHeight);
+            leftHeight -= pageHeight;
+            position -= 841.89;
+            if (leftHeight > 0) {
+              PDF.addPage();
+            }
+          }
         }
-      })
-},
-  },
+        //  PDF.save(name + ".pdf"); // 这里是导出的文件名
+        var formData = new FormData();
+        //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数
 
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-     this.myHtmlCode=sessionStorage.getItem("myHtmlCode")
-    console.log(this.myHtmlCode)
-    if ( this.myHtmlCode==''|| this.myHtmlCode==undefined) {
-      this.myHtmlCod==''
-    } else {
-       this.myHtmlCod==this.myHtmlCode
+        // convertBase64UrlToBlob函数是将base64编码转换为Blob
+        formData.append("uploadFile", this.convertBase64UrlToBlob(pageData)); //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同
+        this.$axios
+          .post("http://152.136.232.95:8089/file/upload", formData)
+          .then(res => {
+            console.log(res);
+            this.letterthird=res.data
+            console.log(res.data)
+          }).then(()=>{
+            let fromdata2 = new FormData();
+        fromdata2.append("aid", sessionStorage.getItem("aid"));
+        fromdata2.append("letterthird",this.letterthird);
+     
+      this.$axios
+        .post(
+          "http://152.136.232.95:8089/appointRecord/updateLetterThird",
+          fromdata2
+        )
+        .then(res => {
+          console.log(res);
+          alert("提交成功")
+           this.$router.push("home");
+        });
+          })
+
+      });
     }
-     let fromdata1=new FormData();
-      fromdata1.append("vname",sessionStorage.getItem("vname"))
-
-    this.$axios.post("http://152.136.232.95:8089/vaccines/findVaccinesByVname",fromdata1).then(res=>{
-        console.log(res)
-        this.vacccc= res.data
-
-    })
-    // sessionStorage.setItem("vid",this.Aemail)
-     let fromdata=new FormData();
-      fromdata.append("aid",sessionStorage.getItem("aid"))
-
-    this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecordByaid",fromdata).then(res=>{
-        console.log(res)
-        this.vaccc= res.data
-        this.doctorautograph=res.data.doctorautograph
-          console.log(this.doctorautograph)
-        sessionStorage.setItem("aid",this.vaccc.aid)
-        console.log(this.vaccc.aid)
-
-    })
-    //
-         let fromdataa=new FormData();
-      fromdataa.append("aid",sessionStorage.getItem("aid"))
-
-    this.$axios.post("http://152.136.232.95:8089/health/findAllHealthByAid",fromdataa).then(res=>{
-        console.log(res)
-        this.aaa=res.data
- })
-    this.$axios.post('http://152.136.232.95:8089/healthinquiry/findHealthInquiry').then(res=>{
-      console.log(res)
-      this.i.id=res.data[0].id
-      this.i.id1=res.data[1].id
-      this.i.id2=res.data[2].id
-      this.i.id3=res.data[3].id
-      this.i.id4=res.data[4].id
-      this.i.id5=res.data[5].id
-      this.i.id6=res.data[6].id
-      this.i.id7=res.data[7].id
-      this.i.id8=res.data[8].id
-      this.i.id9=res.data[9].id
-      this.i.id10=res.data[10].id
-      // console.log(this.id)
-    })
   },
+
+
 };
 </script>
 <style  scoped>

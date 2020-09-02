@@ -283,10 +283,11 @@ export default {
       };
       console.log(this.value1)
       console.log(typeof(this.value1))
-     
-
+      
       this.$axios.post("http://152.136.232.95:8089/user/register", obj).then(res => {
         console.log(res);
+        localStorage.setItem("telephone",this.ruleForm.telephone)
+      localStorage.setItem("psw",this.ruleForm.password)
         if (res.data==1) {
           alert("注册成功，请稍等...")
           // window.location.href="login"
