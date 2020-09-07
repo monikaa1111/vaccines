@@ -30,7 +30,10 @@ import modify2 from '@/views/modify2'
 import yyrecord1 from '@/views/yyrecord1'
 import Vaccinationrecords from '@/views/Vaccinationrecords'
 import Medicalbehavior from '@/views/Medicalbehavior'
+import perfect from '@/views/perfect'
 Vue.use(Vant);
+import vuex from 'vuex'
+Vue.use(vuex)
 
 
 
@@ -179,6 +182,11 @@ export default new Router({
       path: '/Vaccinationrecords',
       name: 'Vaccinationrecords',
       component: Vaccinationrecords
+    },
+    {
+      path: '/perfect',
+      name: 'perfect',
+      component: perfect
     },
   ]
 })

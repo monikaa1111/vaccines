@@ -1,7 +1,6 @@
 <!--  -->
 <template>
   <div class='div'>
-    <top></top>
     <van-nav-bar
       title="疫苗预约"
       right-text="预约接种疫苗"
@@ -39,17 +38,16 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-import top from "@/components/top";
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {
-    top
   },
   data() {
     //这里存放数据
     return {
         show:false,
         vacc:[],
+        apnumberid:''
     };
   },
   //监听属性 类似于data概念
@@ -58,8 +56,10 @@ export default {
   watch: {},
     //生命周期 - 创建完成（可以访问当前this实例）
   created() {
+      this.apnumberid=this.$route.query.apnumberid;
+    console.log(this.apnumberid);
        let fromdata=new FormData();
-      fromdata.append("numberid",sessionStorage.getItem("numberid"))
+      fromdata.append("numberid",sessionStorage.getItem("apnumberid"))
      this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecord",fromdata).then(res=>{
         console.log(res)
         this.vacc=res.data

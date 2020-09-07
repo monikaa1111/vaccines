@@ -14,30 +14,28 @@
     <p style="margin-left:2%">家庭成员</p>
     <div>
    <van-swipe-cell :before-close="beforeClose">
-  <template #left>
-    <van-button square type="primary" text="选择" />
-  </template>
   <!-- <van-cell :border="false" title="单元格" value="内容" /> -->
   <div class="box"  v-for="(item,index) in message " :key="index" @click="see(index)" >
-      <p style="position: absolute;left:5%">{{item.username}}</p>
+      <p style="position: absolute;left:5%;top:20%;">{{item.name}}</p>
       <p style="position: absolute;right:5%;font-size:12px;line-height:2.5em;color: darkgrey" >查看详情>></p>
+      <p style="position: absolute;left:35%;font-size:15px">{{item.gender}}</p>
+      <p style="position: absolute;left:35%;top:20%;font-size:15px">{{item.birthday}}</p>
+      <p style="position: absolute;left:35%;top:40%;font-size:15px">{{item.relation}}</p>
+      <!-- <p style="position: absolute;left:5%;top:65%;font-size:14px">家庭住址：{{item.gender}}</p>
+      <p style="position: absolute;left:5%;top:80%;font-size:14px">出生医院：{{item.gender}}</p> -->
+         <!-- <van-cell title="性别" :value="item.gender" />
+        <van-cell title="出生日期" :value="item.birthday" />
+          <van-cell title="与本人关系" :value="item.relation" />
+          <van-cell title="家庭住址" :value="item.address" />
+            <van-cell title="出生医院" :value="item.birthhospital" /> -->
   </div>
-  <template #right>
-    <van-button square type="danger" text="删除" />
-  </template>
 </van-swipe-cell>
 <van-swipe-cell :before-close="beforeClose">
-  <template #left>
-    <van-button square type="primary" text="选择" />
-  </template>
   <!-- <van-cell :border="false" title="单元格" value="内容" /> -->
   <!-- <div class="box">
       <p style="position: absolute;left:5%">儿子</p>
       <p style="position: absolute;right:5%;font-size:12px;line-height:2.5em;color: darkgrey">查看详情>></p>
   </div> -->
-  <template #right>
-    <van-button square type="danger" text="删除" />
-  </template>
 </van-swipe-cell>
 </div>
 </div>
@@ -138,10 +136,12 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     height: 5em
 } */
 .box{
-    height:3.5em; 
-    width: 99%;
-    border-top: 1px solid rgb(211, 211, 211);
+    height:8em; 
+    width: 98%;
+    margin:10px auto;
+    /* border-top: 1px solid rgb(211, 211, 211); */
     position: relative;
+    background-color:rgb(216, 220, 221);
 }
 .van-button{
     height: 4em

@@ -4,6 +4,10 @@
     <van-nav-bar
       title="您的预约记录"
       right-text="预约接种疫苗"
+       left-text="返回"
+      left-arrow
+      
+      @click-left="onClickLeft()"
       right-arrow
       @click-right="onClickright()"
     />
@@ -72,6 +76,10 @@ export default {
       onClickright() {
       // this.$router.go(-1);
       this.$router.push('treeselect')
+    },
+     onClickLeft() {
+      this.$router.go(-1);
+      // this.$router.push('treeselect')
     },
         jump(index){
       this.$router.push('information?info='+this.vacc[index].aid)

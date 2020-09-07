@@ -7,7 +7,7 @@
 <van-tabbar route active-color="#1989fa">
  <van-tabbar-item icon="wap-home-o" to="home">疫苗知识</van-tabbar-item>
   <van-tabbar-item icon="apps-o" to="treeselect">疫苗分类</van-tabbar-item>
-  <van-tabbar-item icon="phone-o" to="yyrecord">疫苗预约</van-tabbar-item>
+  <!-- <van-tabbar-item icon="phone-o" to="yyrecord">疫苗预约</van-tabbar-item> -->
   <van-tabbar-item icon="user-circle-o" @click="jump2()">个人中心</van-tabbar-item>
 </van-tabbar>
 <!-- <van-tabbar v-model="active" route>

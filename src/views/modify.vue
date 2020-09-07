@@ -111,7 +111,7 @@ export default {
     // },
 
     jump() {
-             this.aaa=this.$route.query.info;
+             this.aaa=this.$route.query.sfzh;
              console.log(this.aaa);
        
     // var tel=sessionStorage.getItem("autograph")
@@ -123,8 +123,8 @@ export default {
             place:this.place,
             telephone: this.telephone,
             time: this.time,
-            aid:this.aaa,
-            numberid:sessionStorage.getItem("numberid")
+            aid:sessionStorage.getItem("aid"),
+            numberid:this.aaa
             // autograph:sessionStorage.getItem("autograph")
         // code:this.code1
       };
@@ -133,7 +133,8 @@ export default {
         console.log(res);
         if (res.data==1) {
           alert("修改成功")
-           this.$router.push('information?info='+this.aaa)
+          //  this.$router.push('information?info='+this.aaa)
+          this.$router.go(-1);
         } else {
            alert("修改失败")
         }

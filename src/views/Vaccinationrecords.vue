@@ -4,6 +4,8 @@
     <van-nav-bar
       title="您的接种记录"
       right-text="预约接种疫苗"
+      left-arrow
+      @click-left="onClickLeft()"
       right-arrow
       @click-right="onClickright()"
     />
@@ -61,20 +63,20 @@ export default {
     console.log(this.numberid);
       let fromdata=new FormData();
       fromdata.append("numberid",this.numberid)
-     this.$axios.post("http://152.136.232.95:8089/appointRecord/findAppointRecord",fromdata).then(res=>{
-        console.log(res)
-        if (res.data.letterthird!="null" || res.data.letterthird!="" || res.data.letterthird!=null ) {
-          this.vacc=res.data
-          console.log(this.vacc)
-        } else {
-          
-        }
+     this.$axios.post("http://152.136.232.95:8089/appointRecord/findLetterThird",fromdata).then(res=>{
+        console.log(res) 
+        this.vacc=res.data
+     
         
 
     })
   },
   //方法集合
    methods: {
+     onClickLeft() {
+      this.$router.go(-1);
+    },
+
       onClickright() {
       // this.$router.go(-1);
       this.$router.push('treeselect')

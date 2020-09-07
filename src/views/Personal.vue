@@ -5,17 +5,23 @@
     <div class="head">
         <img src="../assets/1.jpg" class="img">
         <p class="username">{{message.name}}</p>
+         <img :src="this.ewm1" class="img1" @click="ewm()">
     </div>
     <van-cell-group>
-  <van-cell title="性别" :value="message.gender" />
+  <!-- <van-cell title="性别" :value="message.gender" />
    <van-cell title="出生日期" :value="message.birthday" />
     <van-cell title="与本人关系" :value="message.relation" />
      <van-cell title="家庭住址" :value="message.address" />
-      <van-cell title="出生医院" :value="message.birthhospital" />
+      <van-cell title="出生医院" :value="message.birthhospital" /> -->
+      <div style="height:20px;"></div>
+      <van-cell title="完善个人信息"  @click="perfect()"/>
      <van-cell title="医学行为记录" @click="Medicalbehavior()" />
+      <van-cell title="我的二维码"  @click="ewm()"/>
       <van-cell title="管理家庭成员"  @click="addfamily()"/>
-      <van-cell title="修改个人信息" @click="modify()" />
-       <van-cell title="我的二维码"  @click="ewm()"/>
+      
+      <!-- <van-cell title="修改个人信息" @click="modify()" /> -->
+      
+       
       <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
 </div>
@@ -34,6 +40,7 @@ data() {
 //这里存放数据
 return {
     message:'',
+     ewm1:'',
 };
 },
 //监听属性 类似于data概念
@@ -56,9 +63,16 @@ methods: {
     },
     ewm(){
         this.$router.push('ewm?numberid='+this.message.numberid)
+    },
+    perfect(){
+        this.$router.push('perfect?numberid='+this.message.numberid)
     }
 },
 created() {
+    this.$axios.post("http://152.136.232.95:8089/createCommonQRCode?url=www.baidu.com").then(res=>{
+        console.log(res)
+        this.ewm1='http://152.136.232.95:8089/createCommonQRCode?url=www.baidu.com'
+    })
     //              this.aaa=this.$route.query.uid;
     //    console.log(this.aaa);
     var tel=sessionStorage.getItem("telephone")
@@ -66,6 +80,7 @@ created() {
       fromdata.append("telephone",tel)
     this.$axios.post("http://152.136.232.95:8089/user/getUserInfo",fromdata).then(res =>{
         console.log(res)
+        sessionStorage.setItem("telephone",tel)
         sessionStorage.setItem("uid",res.data[0].uid)
         this.message=res.data[0]
         console.log(this.message)
@@ -78,22 +93,29 @@ created() {
 </script>
 <style  scoped>
 .head{
-    height: 260px;
+    height: 180px;
     width: 100%;
     background-color: rgb(135, 175, 248);
     position: relative;
 }
 .img{
-    width: 20%;
-    height: 5em;
+    width: 17%;
+    height: 4em;
     border-radius:50%;
     position: absolute;
-    top: 28%;
-    left: 40%
+    top: 33%;
+    left: 6%
 }
 .username{
     position: absolute;
-    top: 58%;
-    left: 45%
+    top: 38%;
+    left: 28%
+}
+.img1{
+width:25px;
+height:25px;
+  position: absolute;
+    top: 41%;
+    right: 10%
 }
 </style>

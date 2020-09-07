@@ -8,6 +8,7 @@
         
   @click-left="onClickLeft()"
         />
+<!--         
           <van-field
           readonly
           clickable
@@ -23,31 +24,64 @@
             @cancel="showPicker = false"
             @confirm="onConfirm"
           />
-        </van-popup>
+        </van-popup> -->
       <van-form>
-        <van-field
+        <div class="van-cell">
+          <div style="width:28%">
+            <span  class="van-field__label">预约姓名</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <select name="" id="" class="van-field__control"  v-model="username"  @click="name()">
+                <option  v-for="(item,index) in message " :key="index">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- <van-field
           v-model="username"
           name="预约姓名"
           label="预约姓名"
           placeholder="预约姓名"
           :rules="[{ required: true, message: '请填写预约姓名' }]"
-        />
-        <van-field
+        /> -->
+         <div class="van-cell">
+          <div  style="width:30%">
+            <span  class="van-field__label">预约身份证号</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" :value="vaa.numberid">
+            </div>
+          </div>
+        </div>
+        <div class="van-cell">
+          <div  style="width:28.5%">
+            <span  class="van-field__label">家长电话</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" :value="vaa.telephone">
+            </div>
+          </div>
+        </div>
+        
+        <!-- <van-field
           v-model="numberid"
           name="预约身份证号"
           label="预约身份证号"
-          placeholder="预约身份证号"
+          :placeholder='vaa.numberid'
           :rules="[{ required: true, message: '请填写预约身份证号' }]"
           type="number"
-        />
-         <van-field
+        /> -->
+         <!-- <van-field
           v-model="telephone"
           name="家长电话"
           label="家长电话"
           placeholder="家长电话"
           :rules="[{ required: true, message: '请填写家长电话' }]"
           type="number"
-        />
+        /> -->
        <!-- <van-field
           v-model="position"
           name="预约部位"
@@ -77,13 +111,17 @@
           placeholder="预约医生"
           :rules="[{ required: true, message: '请填写预约医生' }]"
         /> -->
-                        <van-field
-          v-model="department"
-          name="预约医生科室"
-          label="预约医生科室"
-          placeholder="预约医生科室"
-          :rules="[{ required: true, message: '请填写预约医生的科室' }]"
-        />
+          <div class="van-cell">
+          <div  style="width:28.5%">
+            <span  class="van-field__label">预约医生科室</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" value="计免科">
+            </div>
+          </div>
+        </div>
+               
                      
         <!-- <div style=" position: relative;   ">
         <van-field
@@ -122,11 +160,11 @@ components: {},
 data() {
 //这里存放数据
 return {
+  message:'',
   position:'',
     department:'',
     job:'',
     username:'',
-    numberid:'',
     place:'',
     telephone:'',
     time:'',
@@ -135,6 +173,8 @@ return {
      value: "",
     showPicker: false,
       columns: ["本人", "夫妻", "父母", "子女", "兄弟姐妹"],  
+      vaa:'',
+      numberid1:''
 };
 },
 //监听属性 类似于data概念
@@ -142,7 +182,49 @@ computed: {},
 //监控data中的数据变化
 watch: {},
 //方法集合
+  created() {
+       var tel=sessionStorage.getItem("telephone")
+       let fromdata=new FormData();
+      fromdata.append("telephone",tel)
+    this.$axios.post("http://152.136.232.95:8089/user/getUserInfo",fromdata).then(res =>{
+        console.log(res)
+        sessionStorage.setItem("telephone",tel)
+        sessionStorage.setItem("uid",res.data.uid)
+        this.message=res.data
+        console.log(this.message)
+  })
+ 
+       
+},
 methods: {
+  name(){
+    
+        let fromdata1=new FormData();
+      fromdata1.append("name",this.username)
+    this.$axios.post("http://152.136.232.95:8089/user/getUserInfoByName",fromdata1).then(res =>{
+        console.log(res)
+        this.vaa=res.data[0]
+        this.numberid1=res.data[0].numberid
+        console.log(this.vaa)
+
+             let fromdata1=new FormData();
+      fromdata1.append("numberid",this.numberid1)
+
+    this.$axios.post("http://152.136.232.95:8089/user/getUserInfoByNum",fromdata1).then(res=>{
+        console.log(res)
+        this.vacc= res.data[0]
+        // console.log(vacc.vname)
+        if ( this.vacc.birthday=='' ||  this.vacc.gender == '' ||  this.vacc.address=='' ||  this.vacc.birthhospital=='') {
+          alert("您的信息还未完善，请先去完善信息~")
+          this.$router.push("perfect?numberid="+this.numberid1)
+        } 
+    })
+
+    })
+     
+       
+  },
+
     onConfirm(value) {
       this.value = value;
       this.showPicker = false;
@@ -189,18 +271,16 @@ methods: {
        console.log(this.vname);
        
     // var tel=sessionStorage.getItem("autograph")
-    if (this.department==''||this.username==''||this.numberid==''||this.place==''|| this.telephone==''||this.time=='') {
+    if (this.department==''||this.username==''||this.vaa.numberid==''||this.place==''|| this.vaa.telephone==''||this.time=='') {
       alert("您的信息不完善，请去完善信息..")
     } else {
-      
-    
       let obj = {
             department:this.department,
             job: this.job,
             name: this.username,
-            numberid:this.numberid,
+            numberid:this.vaa.numberid,
             place:this.place,
-            telephone: this.telephone,
+            telephone: this.vaa.telephone,
             time: this.time,
             vname: this.vname,
             // autograph:sessionStorage.getItem("autograph")
@@ -208,13 +288,13 @@ methods: {
       };
       console.log(this.value1)
       console.log(typeof(this.value1))
-      sessionStorage.setItem("numberid",this.numberid)
-      console.log(this.numberid)
+      sessionStorage.setItem("apnumberid",this.vaa.numberid)
+      console.log(this.vaa.numberid)
       this.$axios.post("http://152.136.232.95:8089/appointRecord/addAppointRecord", obj).then(res => {
         console.log(res);
         if (res.data==1) {
-          alert("预约成功")
-          this.$router.push('yyrecord')
+          alert("预约成功,请返回个人中心点我的二维码进行现场签到")
+          this.$router.push('Personal?apnumberid='+this.vaa.numberid)
         } else {
           alert("预约失败")
         }
@@ -224,9 +304,7 @@ methods: {
 
 },
 //生命周期 - 创建完成（可以访问当前this实例）
-created() {
 
-},
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
 
@@ -291,4 +369,90 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
       top:-1%;
       right:11%
     }
+    .van-cell {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+}
+.van-cell[data-v-2a0c5816] {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+}
+.van-field__label {
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 6.2em;
+    margin-right: 12px;
+    color: #646566;
+    text-align: left;
+    word-wrap: break-word;
+}
+.van-cell__value {
+    position: relative;
+    overflow: hidden;
+    color: #969799;
+    text-align: right;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+.van-field__body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.van-field__control {
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: #323233;
+    line-height: inherit;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    resize: none;
+}
+.van-field__control {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: #323233;
+    line-height: inherit;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    resize: none;
+}
 </style>

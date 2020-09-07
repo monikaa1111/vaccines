@@ -13,6 +13,7 @@
         <p class="username"></p>
     </div>
     <van-cell-group>
+        <div style="height:25px;"></div>
           <van-cell title="性别" :value="vacc.gender" />
    <van-cell title="出生日期" :value="vacc.birthday" />
     <van-cell title="与本人关系" :value="vacc.relation" />
@@ -21,6 +22,7 @@
      <van-cell title="医学行为记录"  @click="jump()"/>
       <!-- <van-cell title="修改信息" @click="modify()" /> -->
         <van-cell title="二维码"  @click="ewm()"/>
+         <van-cell title="删除用户信息"  @click="delete1()"/>
       <!-- <van-cell title="健康状况查询" @click="Health()" /> -->
 </van-cell-group>
 </div>
@@ -36,7 +38,8 @@ components: {},
 data() {
 //这里存放数据
 return {
-vacc:''
+vacc:'',
+uid:''
 };
 },
 //监听属性 类似于data概念
@@ -57,6 +60,21 @@ onClickLeft() {
     },
       ewm(){
         this.$router.push('ewm?numberid='+this.vacc.numberid)
+    },
+    delete1(){
+             let fromdata=new FormData();
+      fromdata.append("uid",this.uid)
+
+    this.$axios.post("http://152.136.232.95:8089/user/deleteUser",fromdata).then(res=>{
+        console.log(res)
+        if (res.data==1) {
+            alert("删除成功")
+            this.$router.push("addfamily")
+        } else {
+            alert("删除失败")
+        }
+
+    })
     }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -71,6 +89,7 @@ created() {
     this.$axios.post("http://152.136.232.95:8089/user/getUserInfoByNum",fromdata).then(res=>{
         console.log(res)
         this.vacc= res.data[0]
+        this.uid=this.vacc.uid
         // console.log(vacc.vname)
 
     })

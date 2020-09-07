@@ -7,7 +7,7 @@
       <template #content>
         <div v-for="(item,index) in one " :key="index">
           <div v-if="active === 0" class="box" @click="jump(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <van-button plain type="info" class="button">预约</van-button>
             <!-- <button class="button">预约</button> -->
@@ -15,7 +15,7 @@
         </div>
         <div v-for="(item,index) in two" :key="index">
           <div v-if="active === 1" class="box" @click="jump1(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -23,7 +23,7 @@
         </div>
         <div v-for="(item,index) in three" :key="index">
           <div v-if="active === 2" class="box" @click="jump2(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
             <van-button plain type="info" class="button">预约</van-button>
@@ -31,7 +31,7 @@
         </div>
         <div v-for="(item,index) in four" :key="index">
           <div v-if="active === 3" class="box" @click="jump3(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -39,7 +39,7 @@
         </div>
         <div v-for="(item,index) in five" :key="index">
           <div v-if="active === 4" class="box" @click="jump4(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
             <van-button plain type="info" class="button">预约</van-button>
@@ -47,7 +47,7 @@
         </div>
         <div v-for="(item,index) in six" :key="index">
           <div v-if="active === 5" class="box" @click="jump5(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -55,7 +55,7 @@
         </div>
         <div v-for="(item,index) in seven" :key="index">
           <div v-if="active === 6" class="box" @click="jump6(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -63,7 +63,7 @@
         </div>
         <div v-for="(item,index) in eight" :key="index">
           <div v-if="active === 7" class="box" @click="jump7(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -71,7 +71,7 @@
         </div>
         <div v-for="(item,index) in nine" :key="index">
           <div v-if="active === 8" class="box" @click="jump8(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -79,7 +79,7 @@
         </div>
         <div v-for="(item,index) in oneyear" :key="index">
           <div v-if="active === 9" class="box" @click="jump9(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -87,7 +87,7 @@
         </div>
         <div v-for="(item,index) in yiyear" :key="index">
           <div v-if="active === 10" class="box" @click="jump10(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -95,7 +95,7 @@
         </div>
         <div v-for="(item,index) in twoyear" :key="index">
           <div v-if="active === 11" class="box" @click="jump11(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -103,7 +103,7 @@
         </div>
         <div v-for="(item,index) in threeyear" :key="index">
           <div v-if="active === 12" class="box" @click="jump12(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -111,7 +111,7 @@
         </div>
         <div v-for="(item,index) in fouryear" :key="index">
           <div v-if="active === 13" class="box" @click="jump13(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -119,7 +119,7 @@
         </div>
         <div v-for="(item,index) in sixyear" :key="index">
           <div v-if="active === 14" class="box" @click="jump14(index)">
-            <!-- <img :src="item.video" alt class="img" /> -->
+            <img :src="item.video" alt class="img" />
             <p style="margin-left:2%">{{item.vname}}</p>
             <!-- <button class="button">预约</button> -->
              <van-button plain type="info" class="button">预约</van-button>
@@ -161,12 +161,12 @@ export default {
       nine: "",
       active: 0,
       items: [
-        { text: "一月" },
+        { text: "满月" },
         { text: "二月" },
         { text: "三月" },
         { text: "四月" },
         { text: "五月" },
-        { text: "六月" },
+        { text: "半岁" },
         { text: "七月" },
         { text: "八月" },
         { text: "九月" },
@@ -423,21 +423,27 @@ export default {
   /* height: 400px; */
 }
 .img {
-  width: 100%;
-  height: 10em;
+   position: absolute;
+  width:27%;
+  height: 5em;
+  top: 13%;
+  left: 2%;
+   /* border:1px solid black; */
 }
 p{
   position: absolute;
-  top: 15%;
-  left: 5%
+  top: 8%;
+  left: 31%;
+  /* border: 1px solid black */
 }
 .button{
-  height: 2em;
+  height: 1.5em;
+  width: 42%;
   margin-bottom: 10px;
   margin-right: 5%;
   position: absolute;
   right: 5%;
-  bottom: 10%;
+  bottom: 5%;
 }
 .aaa
 {width: 100%;

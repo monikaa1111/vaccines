@@ -80,8 +80,8 @@
           v-model="ruleForm.birthhospital"
           name="出生医院"
           label="出生医院："
-          placeholder="请输入宝宝的出生医院"
-          :rules="[{ required: true, message: '请填写宝宝的出生医院' }]"
+          placeholder="请输入出生医院"
+          :rules="[{ required: true, message: '请填写出生医院' }]"
           style="margin-top:1em"
         />
 

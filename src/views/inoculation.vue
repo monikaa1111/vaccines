@@ -1,6 +1,7 @@
 <!--  -->
 <template>
   <div class="boxx" id="export_content">
+    
     <van-nav-bar title="受种者健康状况询问表 " left-text left-arrow @click-left="onClickLeft()" />
     <!-- <p class="title">受种者健康状况询问表</p> -->
     <!-- <div style="width:100%">
@@ -257,6 +258,7 @@ export default {
         id10: ""
       },
       letterfirst:"",
+      aid:''
     };
   },
   //监听属性 类似于data概念
@@ -266,6 +268,9 @@ export default {
   //方法集合
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
+    
+    this.aid=this.$route.query.aid;
+    console.log(this.aid);
     this.myVal = sessionStorage.getItem("myVal");
     console.log(this.myVal);
     this.myVal01 = sessionStorage.getItem("myVal01");
@@ -288,7 +293,7 @@ export default {
     console.log(this.myVal09);
     this.myVal10 = sessionStorage.getItem("myVal10");
     console.log(this.myVal10);
-    this.aid = this.$route.query.info;
+    this.aid = this.$route.query.aid;
     console.log(this.aid);
     let fromdata1 = new FormData();
     fromdata1.append("vname", sessionStorage.getItem("vname"));
@@ -358,9 +363,7 @@ export default {
     onClickLeft() {
       this.$router.go(-1);
     },
-    downloadHT() {
-      $(".boxx").wordExport("生成文档");
-    },
+
     getImgBase() {
       var _this = this;
       var event = event || window.event;
@@ -451,7 +454,7 @@ export default {
     },
     printOut(name) {
       let obj = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal,
         id: this.i.id,
         name: this.q.question0.name,
@@ -463,7 +466,7 @@ export default {
           console.log(res);
         });
       let obj1 = {
-        aid: sessionStorage.getItem("aid"),
+        aid: this.aid,
         answer: this.m.myVal01,
         id: this.i.id1,
         name: this.q.question1.name,
@@ -475,7 +478,7 @@ export default {
           console.log(res);
         });
       let obj2 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal02,
         id: this.i.id2,
         name: this.q.question2.name,
@@ -487,7 +490,7 @@ export default {
           console.log(res);
         });
       let obj3 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal03,
         id: this.i.id3,
         name: this.q.question3.name,
@@ -499,7 +502,7 @@ export default {
           console.log(res);
         });
       let obj4 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal04,
         id: this.i.id4,
         name: this.q.question4.name,
@@ -511,7 +514,7 @@ export default {
           console.log(res);
         });
       let obj5 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal05,
         id: this.i.id5,
         name: this.q.question5.name,
@@ -523,7 +526,7 @@ export default {
           console.log(res);
         });
       let obj6 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal06,
         id: this.i.id6,
         name: this.q.question6.name,
@@ -535,7 +538,7 @@ export default {
           console.log(res);
         });
       let obj7 = {
-        aid: sessionStorage.getItem("aid"),
+        aid: this.aid,
         answer: this.m.myVal07,
         id: this.i.id7,
         name: this.q.question7.name,
@@ -547,7 +550,7 @@ export default {
           console.log(res);
         });
       let obj8 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal08,
         id: this.i.id8,
         name: this.q.question8.name,
@@ -559,7 +562,7 @@ export default {
           console.log(res);
         });
       let obj9 = {
-        aid: sessionStorage.getItem("aid"),
+        aid:this.aid,
         answer: this.m.myVal09,
         id: this.i.id9,
         name: this.q.question9.name,
@@ -571,7 +574,7 @@ export default {
           console.log(res);
         });
       let obj10 = {
-        aid: sessionStorage.getItem("aid"),
+        aid: this.aid,
         answer: this.m.myVal10,
         id: this.i.id10,
         name: this.q.question10.name,
@@ -642,7 +645,7 @@ export default {
           }).then(()=>{
                        console.log(this.letterfirst)
             let fromdata2 = new FormData();
-        fromdata2.append("aid", sessionStorage.getItem("aid"));
+        fromdata2.append("aid",this.aid);
         fromdata2.append("letterfirst",this.letterfirst);
      
       this.$axios

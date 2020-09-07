@@ -2,7 +2,7 @@
 <template>
   <div class>
     <van-nav-bar
-      title="管理家庭成员"
+      title="完善个人信息"
       left-text
       right-text
       left-arrow
@@ -10,19 +10,57 @@
     />
     <div>
       <van-form @submit="onSubmit">
-        <van-field
+        <!-- <van-field
+          v-model="ruleForm.name"
+          name="用户名"
+          label="用户名："
+          placeholder="请输入您的用户名"
+          :rules="[{ required: true, message: '请填写您的用户名' }]"
+          style="margin-top:1em"
+        /> -->
+         <div class="van-cell">
+          <div  style="width:30%">
+            <span  class="van-field__label">姓名：</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" :value="vacc.name">
+            </div>
+          </div>
+        </div>
+        <!-- <div class="van-cell">
+          <div  style="width:30%">
+            <span  class="van-field__label">手机号：</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" :value="vacc.telephone">
+            </div>
+          </div>
+        </div> -->
+        <div class="van-cell">
+          <div  style="width:30%">
+            <span  class="van-field__label">身份证号：</span>
+          </div>
+          <div class="van-cell__value">
+            <div class="van-field__body">
+              <input type="text" name="" id="" class="van-field__control" :value="vacc.numberid">
+            </div>
+          </div>
+        </div>
+        <!-- <van-field
           v-model="ruleForm.username"
           name="姓名"
           label="姓名："
-          placeholder="请输入姓名"
+          placeholder="请输入您的姓名"
           :rules="[{ required: true, message: '请填写真实姓名' }]"
           style="margin-top:1em"
-        />
+        /> -->
         <van-field
           v-model="ruleForm.gender"
           name="性别"
           label="性别："
-          placeholder="请输入性别"
+          placeholder="请输入您的性别"
           :rules="[{ required: true, message: '此选项不能为空' }]"
           style="margin-top:1em"
         />
@@ -30,8 +68,8 @@
           v-model="value1"
           name="出生日期"
           label="出生日期："
-          placeholder="请输入出生日期，格式为xxxx-xx-xx"
-          :rules="[{ required: true, message: '请填写出生日期' }]"
+          placeholder="请输入宝宝的出生日期，格式为xxxx-xx-xx"
+          :rules="[{ required: true, message: '请填写您的出生日期' }]"
           style="margin-top:1em"
           type="date"
         />
@@ -44,15 +82,15 @@
             placeholder="选择日期" >
           </el-date-picker>
         </div> -->
-        <van-field
+        <!-- <van-field
           v-model="ruleForm.numberid"
           name="身份证号"
           label="身份证号："
-          placeholder="请输入身份证号"
-          :rules="[{ required: true, message: '请填写身份证号' }]"
+          placeholder="请输入您的身份证号"
+          :rules="[{ required: true, message: '请填写您的身份证号' }]"
           style="margin-top:1em"
           type="number"
-        />
+        /> -->
         <van-field
           readonly
           clickable
@@ -69,50 +107,28 @@
             @confirm="onConfirm"
           />
         </van-popup>
-        <!-- <van-field
-          v-model="ruleForm.telephone"
-          name="手机号"
-          label="手机号："
-          placeholder="请输入您的手机号"
-          :rules="[{ required: true, message: '手机号不能为空' }]"
-          style="margin-top:1em"
-          type="number"
-        />
-        <van-field v-model="ruleForm.sms" center clearable label="短信验证码：" placeholder="请输入短信验证码">
-          <template #button>
-            <van-button size="small" type="primary" @click="code()">发送验证码</van-button>
-          </template>
-        </van-field> -->
-        <!-- <van-field
-          v-model="ruleForm.password"
-          type="password"
-          name="密码"
-          label="密码"
-          placeholder="密码"
-          :rules="[{ required: true, message: '请填写密码' }]"
-        /> -->
 
         <van-field
           v-model="ruleForm.address"
           name="家庭住址"
           label="家庭住址："
-          placeholder="请输入家庭住址"
-          :rules="[{ required: true, message: '请填写家庭住址' }]"
+          placeholder="请输入您的家庭住址"
+          :rules="[{ required: true, message: '请填写您的家庭住址' }]"
           style="margin-top:1em"
         />
-        
+       
                <van-field  label="居住证明：" />
                 <input type="file" @change="getImgBase()"   ref="file1" style="margin-top:10px;margin-left:15%;">
-                  <p style="margin-left:5%;color:red">提示：以下三项只需新生儿上传（非必填）</p>
-                  <van-field
+       <p style="margin-left:5%;color:red">提示：以下三项只需新生儿上传（非必填）</p>
+                 <van-field
           v-model="ruleForm.birthhospital"
           name="出生医院"
           label="出生医院："
-          placeholder="请输入出生医院"
-          :rules="[{ required: true, message: '请填写出生医院' }]"
+          placeholder="请输入宝宝的出生医院"
+          :rules="[{ required: true, message: '请填写宝宝的出生医院' }]"
           style="margin-top:1em"
         />
-                <van-field label="请上传出生证明:" />
+                <van-field label="请上传宝宝的出生证明:" />
                 <input type="file" @change="getImgBase()"   ref="file" style="margin-top:10px;margin-left:15%;">
                 <van-field  label="乙肝和卡介苗接种记录：" />
         <input type="file" @change="getImgBase()"   ref="file2" style="margin-top:10px;margin-left:15%;">
@@ -125,7 +141,7 @@
                 </div>
             </div>
         <div style="margin: 16px;">
-          <van-button round block type="info" native-type="submit" @click="jump()">添加</van-button>
+          <van-button round block type="info" native-type="submit" @click="jump()">确认信息</van-button>
         </div>
       </van-form>
     </div>
@@ -143,6 +159,7 @@ export default {
   data() {
     //这里存放数据
     return {
+        Aemail:'',
        value1: '',
        fileList: [],
         value: "",
@@ -169,13 +186,11 @@ export default {
         residencepermit: "",
         birthcertificate: "",
         ykrecord: "",
-        imgBase64:[] 
+        imgBase64:[] ,
+        vacc:''
     };
   },
   methods: {
-     onClickLeft() {
-      this.$router.go(-1);
-    },
      getImgBase(){
                 var _this = this;
                 var event = event || window.event;
@@ -195,10 +210,10 @@ export default {
             delImg(index){
                 this.imgBase64.splice(index,1);
             },
-    jump11() {
-      this.$router.push('/login')
+   
+    onClickLeft() {
+        this.$router.go(-1)
     },
- 
 
     onConfirm(value) {
       this.value = value;
@@ -211,19 +226,7 @@ export default {
     onSubmit(values) {
       console.log("submit", values);
     },
-    // code() {
-    //   var tel = [this.ruleForm.telephone];
-    //   console.log(JSON.stringify(this.ruleForm.telephone));
-    //   this.$axios.post("http://152.136.232.95:8089/user/sendCode",tel).then(res => {
-    //     console.log(res);
-    //     this.code1 = res.data;
-    //     if (res.data!="") {
-    //       alert("验证码发送成功")
-    //     } else {
-          
-    //     }
-    //   });
-    // },
+
 
     jump() {
       var that=this
@@ -252,18 +255,20 @@ export default {
         console.log(response2)
          console.log(response2.data)
          sessionStorage.setItem("ykrecord",response2.data)
-
+         
         })
 
-      let obj = {
+                          let obj = {
         // code:this.code,
-        name: this.ruleForm.username,
-        telephone:sessionStorage.getItem("telephone"),
+        uid:this.vacc.uid,
+        name: this.vacc.name,
+        telephone:this.vacc.telephone,
         gender: this.ruleForm.gender,
         birthday: this.value1+'',
-        numberid: this.ruleForm.numberid,
+        numberid: this.vacc.numberid,
         relation: this.value,
         address: this.ruleForm.address,
+        // password: this.ruleForm.password,
         birthhospital: this.ruleForm.birthhospital,
         // code:this.code1,
         birthcertificate:sessionStorage.getItem("birthcertificate"),
@@ -272,18 +277,20 @@ export default {
       };
       console.log(this.value1)
       console.log(typeof(this.value1))
-     
-
-      this.$axios.post("http://152.136.232.95:8089/user/addUser", obj).then(res => {
+      
+      this.$axios.post("http://152.136.232.95:8089/user/modifyUserInfo", obj).then(res => {
         console.log(res);
+        localStorage.setItem("telephone",this.ruleForm.telephone)
+      localStorage.setItem("psw",this.ruleForm.password)
         if (res.data==1) {
-          alert("添加成功，请稍等...")
+          alert("信息已完善，请稍等...")
           // window.location.href="login"
-          this.$router.push('addfamily')
+          this.$router.push('Personal')
         } else {
-          alert("添加失败")
+          alert("信息完善失败 ")
         }
       });
+
     }
 
 
@@ -314,6 +321,20 @@ export default {
                
             //     )},
         },
+        created(){
+                this.Aemail=this.$route.query.numberid;
+    console.log(this.Aemail);
+    sessionStorage.setItem("jrnumberid",this.Aemail)
+     let fromdata=new FormData();
+      fromdata.append("numberid",this.Aemail)
+
+    this.$axios.post("http://152.136.232.95:8089/user/getUserInfoByNum",fromdata).then(res=>{
+        console.log(res)
+        this.vacc= res.data[0]
+        // console.log(vacc.vname)
+
+    })
+        }
 };
 </script>
 <style  scoped>
@@ -367,4 +388,90 @@ export default {
         float: left;
         
     }
+     .van-cell {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+}
+.van-cell[data-v-2a0c5816] {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 16px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+}
+.van-field__label {
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 6.2em;
+    margin-right: 12px;
+    color: #646566;
+    text-align: left;
+    word-wrap: break-word;
+}
+.van-cell__value {
+    position: relative;
+    overflow: hidden;
+    color: #969799;
+    text-align: right;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+.van-field__body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.van-field__control {
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: #323233;
+    line-height: inherit;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    resize: none;
+}
+.van-field__control {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: #323233;
+    line-height: inherit;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    resize: none;
+}
 </style>

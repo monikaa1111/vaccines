@@ -2,6 +2,7 @@
 <script src="<%= BASE_URL %>js/html-docx.js"></script>
 <template>
   <div id="box" ref="imageDom">
+     <van-nav-bar title="受种者健康状况询问表 " left-text left-arrow @click-left="onClickLeft()" />
     <p class="title" >接种者详情表</p>
     <div style="width:100%">
       <p style="margin-left:2%;">电子告知书：</p>
@@ -46,7 +47,7 @@
   </div>
 </div>
     <div style=" position: relative;width:100%;height：50px; ">
-         <a href="ele"><p style="margin-left:5%;color:blue">去电子签名</p></a> 
+        <p style="margin-left:5%;color:blue" @click="a()">去电子签名</p>
       <p style="margin-left:5%">用户签名:</p>
     
           
@@ -158,7 +159,7 @@ export default {
       id9:'',
       id10:'',
      },
-     letterthird:''
+     letterthird:'',
     };
   },
   //监听属性 类似于data概念
@@ -221,6 +222,10 @@ export default {
     })
   },
   methods: {
+     onClickLeft() {
+      // this.$router.go(-1);
+      this.$router.push("home")
+    },
        getImgBase(){
                 var _this = this;
                 var event = event || window.event;
@@ -389,6 +394,9 @@ export default {
           })
 
       });
+    },
+    a(){
+      this.$router.push('ele')
     }
   },
 

@@ -2,14 +2,14 @@
 <template>
 <div class=''>
       <van-nav-bar
-      title="健康询问"
+      title="健康小提示"
       left-text="返回"
       left-arrow
       
       @click-left="onClickLeft()"
     />
     <!-- <p class="title">健康状况询问表</p> -->
-     <p class="font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下问题可帮助确定受种者是否可以预约本疫苗。请认真查阅后如果符合宝宝的自身情况之后进行预约。</p>
+     <p class="font" >&nbsp;&nbsp;&nbsp;&nbsp;以下问题可帮助确定受种者是否可以预约本疫苗。请认真查阅后如果符合宝宝的自身情况之后进行预约。</p>
      <p style="margin-left:5%">1.近 1 周有发热等不舒服吗？</p>
      <p style="margin-left:5%">2.是否对药物、食物、疫苗等过敏？</p>
      <p style="margin-left:5%">3.是否曾经在接种疫苗后出现过严重反应？</p>
@@ -20,6 +20,9 @@
      <p style="margin-left:5%">8.在过去的一年内，是否接受过输血或血液制品、或使用过免疫球蛋白？</p>
      <p style="margin-left:5%">9.在过去 1 个月内是否接种过疫苗？</p>
      <p style="margin-left:5%">10.是否怀孕或有可能 3  个月内怀孕？（仅需询问育龄妇女）</p>
+     <p style="margin-left:5%;color:red">温馨提示：</p>
+     <p style="margin-left:10%;color:red">①.如果您出现以上任意症状</p>
+     <p style="margin-left:10%;color:red"> ②.在一个月内接种过同种疫苗，请不要进行预约操作。</p>
      <!-- <button style="margin-left:41%;margin-top:20px;margin-bottom:10px" @click="jump()">去预约</button> -->
          <div style="margin: 16px;margin-top:30px">
           <van-button round block type="info" @click="jump()">去预约</van-button>
@@ -55,7 +58,7 @@ methods: {
     jump(){
             this.vname=this.$route.query.vname;
             console.log(this.vname);
-        this.$router.push('notification?vname='+this.vname)
+        this.$router.push('appointment?vname='+this.vname)
     }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -82,8 +85,10 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
   font-weight: bold;
 }
 .font{
-    font-size: 16px;
+    font-size: 15px;
     margin-left: 1%;
-    line-height: 31px
+    line-height: 31px;
+    margin-left: 5%
+    
 }
 </style>

@@ -1,6 +1,12 @@
 <template>
     <div class="login_div">
-       <p style=" text-align: center">我的二维码</p>
+          <van-nav-bar
+      title="我的二维码"
+      left-text
+      left-arrow
+      @click-left="onClickLeft()"
+    />
+       <!-- <p style=" text-align: center">我的二维码</p> -->
       <img :src="this.ewm" style="margin-left:10%">
     </div>
 </template>
@@ -17,11 +23,15 @@ import QRCode from "qrcodejs2";
             }
         },
     methods : {
+         onClickLeft() {
+      this.$router.go(-1);
+    //   this.$router.push('treeselect')
+    },
   getEwm:function(){
       this.$axios.post("http://152.136.232.95:8089/createCommonQRCode?url=http://www.sheltermedia.cn/haoyisheng/hao/first.html?numberid="+ this.numberid,{ 'responseType': 'blob' }).then(res=>{
  
 
-this.ewm="http://152.136.232.95:8089/createCommonQRCode?url=http://www.sheltermedia.cn/hao/t.html?nu="+ this.numberid;
+    this.ewm="http://152.136.232.95:8089/createCommonQRCode?url=http://www.sheltermedia.cn/hao/t.html?nu="+ this.numberid;
       })
 
 

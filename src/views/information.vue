@@ -84,7 +84,9 @@ methods: {
  this.$router.push('modify?info='+this.vacc.aid)
     },
      jump1(){
-          this.$router.push('inoculation?info='+this.vacc.aid)
+        
+          this.$router.push('inoculation?aid='+this.vacc.aid)
+          
     },
      clickGeneratePicture() {
       html2canvas(this.$refs.imageDom).then(canvas => {
@@ -118,6 +120,7 @@ created() {
         console.log(this.vacc.aid)
 
     })
+    
 },
     
 
