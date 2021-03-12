@@ -18,7 +18,7 @@
     "html2canvas": "^1.0.0-rc.7",
     "jquery": "^3.5.1",
     "js-base64": "^3.4.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jszip": "^3.5.0",
     "jszip-utils": "^0.1.0",
     "mhtml-to-word": "^1.0.4",
